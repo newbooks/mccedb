@@ -1,0 +1,7 @@
+# Ignore files in private
+private/
+
+# Ignore backup files
+*.bak
+*~
+
