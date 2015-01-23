@@ -1,3 +1,3 @@
 # mccedb
-MCCE calculated pKa database
+MCCE calculated pKa database - A web interface to pKa calculations
 
