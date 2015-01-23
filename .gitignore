@@ -2,7 +2,7 @@
 private/
 
 # Ignore project setting folder
-.idea
+.idea/
 
 # Ignore backup files
 *.bak
