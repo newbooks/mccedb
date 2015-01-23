@@ -1,6 +1,9 @@
 # Ignore files in private
 private/
 
+# Ignore project setting folder
+.idea
+
 # Ignore backup files
 *.bak
 *~
