@@ -1,5 +1,4 @@
-
-<form action="search.php">
+<form action="searchresult.php" method="get">
     <div class="right" style="text-align:right" title="Search example: PDB=1akk">
         Search:
         <input type="text" name="searchtxt" size="40">
