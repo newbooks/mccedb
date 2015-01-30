@@ -27,7 +27,7 @@ if (isset($_GET['searchtxt'])) {
         $key=trim($fields[0]);
         $value=trim($fields[1]);
     }
-    //echo $key.$operator,$value."<br>";
+    // Remove redundant options
     $new = TRUE;
     foreach ($options as $a) {
         if ($a["key"] == $key and $a["operator"] == $operator and $a["value"] == $value) {
@@ -42,7 +42,7 @@ if (isset($_GET['searchtxt'])) {
 }
 
 $_SESSION["options"] = $options;
-print_r($options);
+//print_r($options);
 
 // Refine by
 echo <<<HTML
@@ -54,13 +54,26 @@ echo <<<HTML
 <hr>
 HTML;
 
+// Suggestions
+print_r($_GET);
+
 echo <<<HTML
-<form action="searchresult.php" method="get">
+<form id="form" action="searchresult.php" method="get">
     <div style="color: #606060">Structure Method:</div>
+    <input type="checkbox" class='checkbox' value="xray" name="structuremethod"/> X Ray</input>
     <hr>
 
-    <div style="color: #606060">Structure Method:</div>
+    <div style="color: #606060">pKa Method:</div>
     <hr>
 
 </form>
+
+<script type="text/javascript">
+    $(function(){
+     $('.checkbox').on('change',function(){
+        $('#form').submit();
+        });
+    });
+</script>
 HTML;
+

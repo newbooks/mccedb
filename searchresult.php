@@ -4,6 +4,7 @@
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
     <title>MCCE pKa Database</title>
     <link rel="stylesheet" type="text/css" href="mcce.css"/>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 
 <body>
