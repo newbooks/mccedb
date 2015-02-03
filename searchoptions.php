@@ -1,5 +1,6 @@
 <?php
-//Current search options
+/* Current search options
+ */
 if (isset($_SESSION["options"])) {
     $options=$_SESSION["options"];
 } else {
@@ -10,12 +11,12 @@ if (isset($_SESSION["options"])) {
 if (isset($_GET['newsearchtxt'])) {
     unset($options);
     $options=array();
-    $_GET['searchtxt'] = $_GET['newsearchtxt'];
+    $_GET['refinesearchtxt'] = $_GET['newsearchtxt'];
 }
-if (isset($_GET['searchtxt'])) {
+if (isset($_GET['refinesearchtxt'])) {
     $operators = array("=", "<", ">", ">=", "<=");
     $trueoperators = array();
-    $searchtxt = $_GET['searchtxt'];
+    $searchtxt = $_GET['refinesearchtxt'];
     foreach ($operators as $a) {
         if (strpos($searchtxt, $a) !== FALSE) {
             $trueoperators[] = $a;
@@ -25,7 +26,7 @@ if (isset($_GET['searchtxt'])) {
     if (sizeof($trueoperators) == 0) {
         $operator = "=";
         $key = "ALL";
-        $value = "$searchtxt";
+        $value = $searchtxt;
     } else {
         $operator = array_pop($trueoperators);
         $fields = explode($operator,$searchtxt);
@@ -46,6 +47,21 @@ if (isset($_GET['searchtxt'])) {
 
 }
 
+// Scan checkbox states
+if (isset($_GET['checkboxsearchtxt'])) {
+
+
+}
+
+// Scan radio selection states
+
+
+/* Print page to get new search options
+
+ */
+
+
+
 $_SESSION["options"] = $options;
 print_r($options);
 
@@ -53,13 +69,13 @@ print_r($options);
 echo <<<HTML
 <form action="searchresult.php" method="get">
     <div style="color: #606060">Refine by:</div>
-        <input type="text" name="searchtxt" size="24">
+        <input type="text" name="refinesearchtxt" size="24">
         <input type="submit" value="Go">
 </form>
 <hr>
 HTML;
 
-// Suggestions
+// Suggestions, check boxes
 //print_r($_GET);
 
 echo '<form id="form" action="searchresult.php" method="get">';
@@ -90,3 +106,4 @@ echo <<<HTML
 </script>
 HTML;
 
+//Suggestion radio selection
