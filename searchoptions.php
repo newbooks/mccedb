@@ -80,19 +80,19 @@ if (isset($_SESSION["options"])) {
 }
 
 //Decompose search string, multiple match will use the last one in operators
-if (isset($_GET['newsearchtxt'])) {
+if (isset($_POST['newsearchtxt'])) {
     unset($options);
     $options=array();
-    $option = $_GET['newsearchtxt'];
-} elseif (isset($_GET['refinesearchtxt'])) {
-    $option = $_GET['refinesearchtxt'];
+    $option = $_POST['newsearchtxt'];
+} elseif (isset($_POST['refinesearchtxt'])) {
+    $option = $_POST['refinesearchtxt'];
 }
 $options=Add_option($option, $options);
 
 //scan checkbox
 $all_items = array("structmethod1=xray", "structmethod2=nmr");
 foreach ($all_items as $item) {
-    if (in_array($item, $_GET['checkboxes'])) {
+    if (in_array($item, $_POST['checkboxes'])) {
         //selected items
         $options = Add_option($item, $options);
     } else {
@@ -116,7 +116,7 @@ print_r($options);
 
 // Refine by
 echo <<<HTML
-<form action="searchresult.php" method="get">
+<form action="searchresult.php" method="post">
     <div style="color: #606060">Refine by:</div>
         <input type="text" name="refinesearchtxt" size="24">
         <input type="submit" value="Go">
@@ -125,9 +125,9 @@ echo <<<HTML
 HTML;
 
 // Suggestions, check boxes
-//print_r($_GET);
+//print_r($_POST);
 
-echo '<form id="form" action="searchresult.php" method="get">';
+echo '<form id="form" action="searchresult.php" method="post">';
 echo '   <div style="color: #606060">Structure Method:</div>';
 echo '   <input type="checkbox" class="checkbox" value="structmethod1=xray" name="checkboxes[]" ';
 if (isset($options['structmethod1'])) {
