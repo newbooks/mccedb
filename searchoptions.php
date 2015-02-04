@@ -162,18 +162,17 @@ if (isset($options['epsilon2'])) {
     echo ' checked="checked" ';
 }
 echo '> epsilon=8<br></input>';
+
 echo '   <hr>';
 
 
 echo  '</form>';
 
+//Suggestion radio selection
+
+?>
 
 
-
-
-
-
-echo <<<HTML
 <script type="text/javascript">
     $(function(){
      $('.checkbox').on('change',function(){
@@ -181,6 +180,4 @@ echo <<<HTML
         });
     });
 </script>
-HTML;
 
-//Suggestion radio selection

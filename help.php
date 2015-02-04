@@ -54,12 +54,6 @@
         <th>Explanation</th>
     </tr>
     <tr>
-        <td>ALL</td>
-        <td></td>
-        <td></td>
-        <td>Special string to list all residues being calculated. Users can refine search later on.</td>
-    </tr>
-    <tr>
         <td>PDB</td>
         <td>=</td>
         <td>string</td>
@@ -84,15 +78,9 @@
         <td>Residue desolvation energy, a measurement of how deep a residue is buried.</td>
     </tr>
     <tr>
-        <td>SUBMITTER</td>
-        <td>=</td>
-        <td>string</td>
-        <td>Submitter is the user name of working directories on computing server.</td>
-    </tr>
-    <tr>
         <td>METHOD</td>
         <td>=</td>
-        <td>MCCE, Exp, Other</td>
+        <td>MCCE, Experiment</td>
         <td>One of these 3 strings</td>
     </tr>
     <tr>
@@ -106,8 +94,10 @@
 
 <h3>Refined search</h3>
 
-<p>After initial search, a search refine options appear at the left panel, and search combinations appear on the top
-    line, and search results occupies the main page. Use these two areas to add or remove search restrictions.</p>
+<p>After initial search, a search refine options appear at the left panel. This allows user to add further constraints to the search.
+</p>
+
+<p>Some options and constraints are provided as checkboxes for convenience.</p>
 
 <p class="address" style="text-align:right">
 <?php
