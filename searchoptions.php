@@ -136,7 +136,10 @@ echo '    <input type="checkbox" class="checkbox" value="structmethod2=nmr" name
 if (isset($options['structmethod2'])) {
     echo ' checked="checked" ';
 }
-echo '> NMR<br></input><hr> ';
+echo '> NMR<br></input>';
+echo '  <hr> ';
+
+
 
 echo '   <div style="color: #606060">pKa Method:</div>';
 echo '   <input type="checkbox" class="checkbox" value="pkamethod1=experiment" name="checkboxes[]" ';
@@ -164,11 +167,15 @@ if (isset($options['epsilon2'])) {
 echo '> epsilon=8<br></input>';
 
 echo '   <hr>';
-
-
 echo  '</form>';
 
-//Suggestion radio selection
+/**  Links to related pdb entries when viewing a pdb or a pdb search has no result
+ * Entry and link
+ *      SI
+ *      Method
+ *      epsilon
+ */
+echo '   <div style="color: #606060">Related entries:</div>';
 
 ?>
 
