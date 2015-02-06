@@ -113,17 +113,17 @@ class PROTEIN:
         lines.append("DELETE FROM pairwise WHERE UNIQUEID='%s';\n" % self.uniqueid)
 
         lines.append(
-            "INSERT INTO proteins VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s', '%s');\n" %
-            (self.uniqueid, self.publish, self.owner, self.pdb_id, self.protein_name, self.taxonomy, \
-             self.pka_method, self.epsilon, self.chain_ids, self.structure_size, self.structure_method, self.resolution, \
+            "INSERT INTO proteins VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');\n" %
+            (self.uniqueid, self.pdb_id, self.protein_name, self.taxonomy, self.pka_method, self.epsilon,\
+             self.chain_ids, self.structure_size, self.structure_method, self.resolution, \
              self.model, self.isoelectric_point,self.protein_titration, self.remark))
 
         for key in self.residues.keys():
             residue = self.residues[key]
             lines.append(
-                "INSERT INTO residues VALUES ('%s','%s','%s','%s','%s','%s','%s','%s');\n" %
+                "INSERT INTO residues VALUES ('%s','%s','%s','%s','%s','%s','%s');\n" %
                 (residue.uniqueid, residue.resname, residue.cid, residue.seq, residue.pka, residue.pka_err, \
-                 residue.pka_titration, residue.dsol))
+                 residue.pka_titration))
 
         for line in self.mfelines:
             kv={}
@@ -153,7 +153,7 @@ class PROTEIN:
                  kv["PAIRWISE"], kv["CHARGE"]))
             kv.clear()
 
-        line.append("COMMIT;\n")
+        lines.append("COMMIT;\n")
         open(fname, "w").writelines(lines)
         return
 
