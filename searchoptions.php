@@ -19,7 +19,7 @@ function Add_option($option, $options) {
         } else {
             $operator = array_pop($trueoperators);
             $fields = explode($operator,$searchtxt);
-            $key=trim($fields[0]);
+            $key=strtoupper(trim($fields[0]));
             $value=trim($fields[1]);
         }
         // Remove redundant options

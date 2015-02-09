@@ -32,10 +32,6 @@
         <td>Search calculations based on structure 1AKK</td>
     </tr>
     <tr>
-        <td style="font-style: italic">PDB=1AKK.A</td>
-        <td>Search calculations based on chain A of structure 1AKK</td>
-    </tr>
-    <tr>
         <td style="font-style: italic">pKa>7.0</td>
         <td>Search residues with calculated pKa greater than 7</td>
     </tr>
@@ -108,8 +104,8 @@
     <tr>
         <td>CHAIN IDS</td>
         <td>=</td>
-        <td>character(s) separated by comma ","</td>
-        <td>Chain IDs</td>
+        <td>characters separate by ","</td>
+        <td>Chain IDs. </td>
     </tr>
     <tr>
         <td>STRUCTURE SIZE</td>
@@ -164,6 +160,12 @@
         <td><,></td>
         <td>floating point number</td>
         <td>Residue desolvation energy in pH unit, a measurement of how deep a residue is buried.</td>
+    </tr>
+    <tr>
+        <td>TOTALPW</td>
+        <td><,></td>
+        <td>floating point number</td>
+        <td>Total pairwise residue interaction in pH unit.</td>
     </tr>
     <tr>
         <td>PAIRWISE</td>
