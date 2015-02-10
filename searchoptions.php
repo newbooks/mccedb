@@ -88,8 +88,8 @@ if (isset($_POST['newsearchtxt'])) {
 $options=Add_option($option, $options);
 
 //scan checkbox. must add the checkbox value in this list for proper scan
-$all_items = array("structmethod1=xray", "structmethod2=nmr", "epsilon1=4.0", "epsilon2=8.0", "pkamethod1=experiment",
-    "pkamethod2=mcce");
+$all_items = array("STRUCTMETHOD1=xray", "STRUCTMETHOD2=nmr", "EPSILON1=4.0", "EPSILON2=8.0", "PKAMETHOD1=experiment",
+    "PKAMETHOD2=mcce");
 foreach ($all_items as $item) {
     if (in_array($item, $_POST['checkboxes'])) {
         //selected items
@@ -127,13 +127,13 @@ HTML;
 // Suggestions, check boxes, Any checkbox value should also be added to the scan section above
 echo '<form id="form" action="searchresult.php" method="post">';
 echo '   <div style="color: #606060">Structure Method:</div>';
-echo '   <input type="checkbox" class="checkbox" value="structmethod1=xray" name="checkboxes[]" ';
-if (isset($options['structmethod1'])) {
+echo '   <input type="checkbox" class="checkbox" value="STRUCTMETHOD1=xray" name="checkboxes[]" ';
+if (isset($options['STRUCTMETHOD1'])) {
     echo ' checked="checked" ';
 }
 echo '> X Ray<br></input>';
-echo '    <input type="checkbox" class="checkbox" value="structmethod2=nmr" name="checkboxes[]" ';
-if (isset($options['structmethod2'])) {
+echo '    <input type="checkbox" class="checkbox" value="STRUCTMETHOD2=nmr" name="checkboxes[]" ';
+if (isset($options['STRUCTMETHOD2'])) {
     echo ' checked="checked" ';
 }
 echo '> NMR<br></input>';
@@ -142,26 +142,26 @@ echo '  <hr> ';
 
 
 echo '   <div style="color: #606060">pKa Method:</div>';
-echo '   <input type="checkbox" class="checkbox" value="pkamethod1=experiment" name="checkboxes[]" ';
-if (isset($options['pkamethod1'])) {
+echo '   <input type="checkbox" class="checkbox" value="PKAMETHOD1=experiment" name="checkboxes[]" ';
+if (isset($options['PKAMETHOD1'])) {
     echo ' checked="checked" ';
 }
 echo '> Experiment<br></input>';
-echo '   <input type="checkbox" class="checkbox" value="pkamethod2=mcce" name="checkboxes[]" ';
-if (isset($options['pkamethod2'])) {
+echo '   <input type="checkbox" class="checkbox" value="PKAMETHOD2=mcce" name="checkboxes[]" ';
+if (isset($options['PKAMETHOD2'])) {
     echo ' checked="checked" ';
 }
 echo '> MCCE<br></input>';
 echo '<hr>';
 
 echo '   <div style="color: #606060">MCCE restrictions:</div>';
-echo '   <input type="checkbox" class="checkbox" value="epsilon1=4.0" name="checkboxes[]" ';
-if (isset($options['epsilon1'])) {
+echo '   <input type="checkbox" class="checkbox" value="EPSILON1=4.0" name="checkboxes[]" ';
+if (isset($options['EPSILON1'])) {
     echo ' checked="checked" ';
 }
 echo '> epsilon=4<br></input>';
-echo '   <input type="checkbox" class="checkbox" value="epsilon2=8.0" name="checkboxes[]" ';
-if (isset($options['epsilon2'])) {
+echo '   <input type="checkbox" class="checkbox" value="EPSILON2=8.0" name="checkboxes[]" ';
+if (isset($options['EPSILON2'])) {
     echo ' checked="checked" ';
 }
 echo '> epsilon=8<br></input>';
