@@ -29,9 +29,9 @@ foreach ($keys as $key) {
         if (strcasecmp($value,'X RAY') == 0 or strcasecmp($value,'XRD')==0 or strcasecmp($value,'X-RAY')==0 ) {
             $value = "X-RAY DIFFRACTION";
         }
-        $query_proteins[] = " STRUCTURE_METHOD = \"$value\"";
+        $query_proteins[] = " STRUCTURE_METHOD like \"$value\"";
     } elseif (strcasecmp($key,'PKA METHOD') == 0) {
-        $query_proteins[] = " PKA_METHOD = \"$value\"";
+        $query_proteins[] = " PKA_METHOD like \"$value\"";
     } elseif (strcasecmp($key,'EPSILON') == 0) {
         $query_proteins[] = " EPSILON = \"$value\"";
     } elseif (strcasecmp($key,'CHAIN IDS') == 0) {
@@ -70,6 +70,38 @@ foreach ($keys as $key) {
     }
 }
 
+// checkbox selections
+if (isset($options['STRUCTMETHOD1']) or isset($options['STRUCTMETHOD2'])) {
+    $query=array();
+    if (isset($options['STRUCTMETHOD1'])) {
+        $query[] = " STRUCTURE_METHOD like \"X-RAY DIFFRACTION\"";
+    }
+    if (isset($options['STRUCTMETHOD2'])) {
+        $query[] = " STRUCTURE_METHOD like \"NMR\"";
+    }
+    $query_proteins[] = "( ".join(" OR ", $query)." )";
+}
+if (isset($options['PKAMETHOD1']) or isset($options['PKAMETHOD2'])) {
+    $query=array();
+    if (isset($options['PKAMETHOD1'])) {
+        $query[] = " PKA_METHOD like \"EXPERIMENT\"";
+    }
+    if (isset($options['PKAMETHOD2'])) {
+        $query[] = " PKA_METHOD like \"MCCE\"";
+    }
+    $query_proteins[] = "( ".join(" OR ", $query)." )";
+}
+if (isset($options['EPSILON1']) or isset($options['EPSILON2'])) {
+    $query = array();
+    if (isset($options['EPSILON1'])){
+        $query[] = "  EPSILON=\"4.0\"";
+    }
+    if (isset($options['EPSILON2'])){
+        $query[] = "  EPSILON=\"8.0\"";
+    }
+    $query_proteins[] = "( ".join(" OR ", $query)." )";
+}
+
 
 if (!empty($query_proteins)) {
     $mysql_proteins = "SELECT * FROM proteins WHERE ".join(" AND ", $query_proteins);
@@ -98,7 +130,7 @@ if (isset($mysql_mfe)) {
     echo $mysql_mfe."<br>";
 }
 if (isset($mysql_pairwise)) {
-    echo $query_pairwise."<br>";
+    echo $mysql_pairwise."<br>";
 }
 
 
