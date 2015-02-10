@@ -5,8 +5,8 @@ $keys = array_keys($options);
  * Search priority: protein > residue > mfe > pairwise,
  * Once one search level is valid, get unique IDs to confine other searches
  */
-print_r($options);
-echo "<br><br>";
+//print_r($options);
+//echo "<br><br>";
 // Top to bottom search priority, get UNIQUEID and apply to the rest
 $query_proteins=array();
 $query_residues=array();
@@ -110,19 +110,25 @@ if (!empty($query_residues)) {
     $mysql_residues="SELECT * FROM residues WHERE ".join(" AND ", $query_residues);
 }
 if (!empty($query_mfe)) {
-    //echo $query_proteins."<br>";
     $mysql_mfe = "SELECT * FROM mfe WHERE ".join(" AND ",$query_mfe);
-    //echo $query_proteins."<br>";
 }
 if (!empty($query_pairwise)) {
-    //echo $query_proteins."<br>";
     $mysql_pairwise = "SELECT * FROM pairwise WHERE ".join(" AND ",$query_pairwise);
-    //echo $query_proteins."<br>";
 }
+
+if (isset($_SESSION["view_mode"])) {
+    $view_mode = $_SESSION["view_mode"];
+} else {
+    $view_mode = "Protein"; //default view mode
+}
+
 
 if (isset($mysql_proteins)) {
     echo $mysql_proteins."<br>";
+} else {
+    $view_mode = "Residues"; //no protein level search. switch default to residues
 }
+
 if (isset($mysql_residues)) {
     echo $mysql_residues."<br>";
 }
@@ -132,6 +138,7 @@ if (isset($mysql_mfe)) {
 if (isset($mysql_pairwise)) {
     echo $mysql_pairwise."<br>";
 }
+
 
 
 /** get UNIQUEIDs from top to bottom search priority */
