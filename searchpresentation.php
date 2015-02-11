@@ -118,6 +118,7 @@ if (!empty($query_pairwise)) {
 
 
 
+
 echo "<h2>Search results</h2>";
 echo "<hr>";
 /** removable search  options */
@@ -151,12 +152,12 @@ if (isset($mysql_proteins)) {
     $result=@mysql_query($query) or die('Invalid query: ' .mysql_error());
     $num_results = mysql_fetch_array($result, MYSQL_NUM);
     $num_result  = $num_results[0];
-    echo '<table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0">';
+    echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
     echo '<tr>';
     echo '    <td>Total result: '.$num_result.'</td>';
 
     if (strcasecmp($view_mode, "Protein") == 0) {
-        echo '    <td>Protein View | <a href="searchresult.php?switchview=Residue">Residue View</a></td>';
+        echo '    <td style="text-align:right">Protein View | <a href="searchresult.php?switchview=Residue">Residue View</a></td>';
     } else {
         echo '    <td style="text-align:right"><a href="searchresult.php?switchview=Protein">Protein View</a> | Residue View</td>';
     }

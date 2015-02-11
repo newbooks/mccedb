@@ -107,11 +107,16 @@ if (isset($_GET['remove'])) {
 }
 
 if (empty($options)) {
-    $options = ["ALL" => ["operator"=>"=", "value"=>""]];
+    $options = ["ANY" => ["operator"=>"=", "value"=>""]];
 }
 $_SESSION["options"] = $options;
 /** Print page to get new search options
  */
+
+//view mode switch
+if (isset($_GET['switchview'])) {
+    $_SESSION['view_mode'] = $_GET['switchview'];
+}
 
 
 //print_r($options);
