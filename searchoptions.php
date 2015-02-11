@@ -106,9 +106,10 @@ if (isset($_GET['remove'])) {
     unset($options[$_GET['remove']]);
 }
 
+if (empty($options)) {
+    $options = ["ALL" => ["operator"=>"=", "value"=>""]];
+}
 $_SESSION["options"] = $options;
-
-
 /** Print page to get new search options
  */
 

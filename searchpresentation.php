@@ -104,29 +104,23 @@ if (isset($options['EPSILON1']) or isset($options['EPSILON2'])) {
 
 
 if (!empty($query_proteins)) {
-    $mysql_proteins = "SELECT * FROM proteins WHERE ".join(" AND ", $query_proteins);
+    $mysql_proteins = join(" AND ", $query_proteins);
 }
 if (!empty($query_residues)) {
-    $mysql_residues="SELECT * FROM residues WHERE ".join(" AND ", $query_residues);
+    $mysql_residues= join(" AND ", $query_residues);
 }
 if (!empty($query_mfe)) {
-    $mysql_mfe = "SELECT * FROM mfe WHERE ".join(" AND ",$query_mfe);
+    $mysql_mfe = join(" AND ",$query_mfe);
 }
 if (!empty($query_pairwise)) {
-    $mysql_pairwise = "SELECT * FROM pairwise WHERE ".join(" AND ",$query_pairwise);
+    $mysql_pairwise = join(" AND ",$query_pairwise);
 }
 
-if (isset($_SESSION["view_mode"])) {
-    $view_mode = $_SESSION["view_mode"];
-} else {
-    $view_mode = "Protein"; //default view mode
-}
 
 
 echo "<h2>Search results</h2>";
 echo "<hr>";
 /** removable search  options */
-echo "<br>";
 $keys=array_keys($options);
 asort($keys);
 foreach ($keys as $key) {
@@ -135,18 +129,44 @@ foreach ($keys as $key) {
     $value = $options["$key"]["value"];
     echo "<span class='removable_options'>$shownkey$operator$value [<a href='searchresult.php?remove=$key'>X</a>]&nbsp;</span>";
 }
-echo "<br>";
+echo "<hr>";
+
 
 /** switch view */
-
-
-
-
-
-if (isset($mysql_proteins)) {
-    echo $mysql_proteins."<br>";
+if (isset($_SESSION["view_mode"])) {
+    $view_mode = $_SESSION["view_mode"];
 } else {
-    $view_mode = "Residues"; //no protein level search. switch default to residues
+    $view_mode = "Protein"; //default view mode
+}
+
+require_once("private/env.php");
+$con = @mysql_connect("localhost",$MySQL_user,$MySQL_passwd) or die('Could not connect: ' . mysql_error());
+mysql_select_db($MySQL_database, $con);
+
+
+/* Get UNIQUEIDs */
+if (isset($mysql_proteins)) {
+    $query="SELECT COUNT(*) from proteins WHERE".$mysql_proteins;
+    //echo $query."<br>";
+    $result=@mysql_query($query) or die('Invalid query: ' .mysql_error());
+    $num_results = mysql_fetch_array($result, MYSQL_NUM);
+    $num_result  = $num_results[0];
+    echo '<table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0">';
+    echo '<tr>';
+    echo '    <td>Total result: '.$num_result.'</td>';
+
+    if (strcasecmp($view_mode, "Protein") == 0) {
+        echo '    <td>Protein View | <a href="searchresult.php?switchview=Residue">Residue View</a></td>';
+    } else {
+        echo '    <td style="text-align:right"><a href="searchresult.php?switchview=Protein">Protein View</a> | Residue View</td>';
+    }
+    echo '</tr>';
+    echo '</table>';
+
+
+    mysql_free_result($result);
+} else {
+    $view_mode = "Residue"; //no protein level search. switch default to residues
 }
 
 if (isset($mysql_residues)) {
@@ -168,3 +188,4 @@ if (isset($mysql_pairwise)) {
 
 
 /** results */
+
