@@ -14,7 +14,7 @@ function Add_option($option, $options) {
 
         if (sizeof($trueoperators) == 0) {
             $operator = "=";
-            $key = "ALL";
+            $key = "ANY";
             $value = $searchtxt;
         } else {
             $operator = array_pop($trueoperators);
@@ -51,7 +51,7 @@ function Remove_option($option, $options) {
 
         if (sizeof($trueoperators) == 0) {
             $operator = "=";
-            $key = "ALL";
+            $key = "ANY";
             $value = $searchtxt;
         } else {
             $operator = array_pop($trueoperators);
@@ -88,33 +88,35 @@ if (isset($_POST['newsearchtxt'])) {
 $options=Add_option($option, $options);
 
 //scan checkbox. must add the checkbox value in this list for proper scan
-$all_items = array("STRUCTMETHOD1=xray", "STRUCTMETHOD2=nmr", "EPSILON1=4.0", "EPSILON2=8.0", "PKAMETHOD1=experiment",
-    "PKAMETHOD2=mcce");
-foreach ($all_items as $item) {
-    if (in_array($item, $_POST['checkboxes'])) {
-        //selected items
-        $options = Add_option($item, $options);
-    } else {
-        $options = Remove_option($item, $options);
+if (isset($_POST['checkboxes'])) {
+    $all_items = array("STRUCTMETHOD1=xray", "STRUCTMETHOD2=nmr", "EPSILON1=4.0", "EPSILON2=8.0", "PKAMETHOD1=experiment",
+        "PKAMETHOD2=mcce");
+    foreach ($all_items as $item) {
+        if (in_array($item, $_POST['checkboxes'])) {
+            //selected items
+            $options = Add_option($item, $options);
+        } else {
+            $options = Remove_option($item, $options);
+        }
     }
 }
 
-
-
-// Scan radio selection states
-
-
+//remove option
+if (isset($_GET['remove'])) {
+    unset($options[$_GET['remove']]);
+}
 
 $_SESSION["options"] = $options;
 
 
-// Print page to get new search options
-
+/** Print page to get new search options
+ */
 
 
 //print_r($options);
 
 // Refine by
+
 echo <<<HTML
 <form action="searchresult.php" method="post">
     <div style="color: #606060">Refine by:</div>
@@ -138,8 +140,6 @@ if (isset($options['STRUCTMETHOD2'])) {
 }
 echo '> NMR<br></input>';
 echo '  <hr> ';
-
-
 
 echo '   <div style="color: #606060">pKa Method:</div>';
 echo '   <input type="checkbox" class="checkbox" value="PKAMETHOD1=experiment" name="checkboxes[]" ';

@@ -17,7 +17,7 @@ foreach ($keys as $key) {
     //echo $key;
     $operator = $options[$key]["operator"];
     $value = $options[$key]["value"];
-    if ($key == 'ALL'){
+    if ($key == 'ANY'){
         $query_proteins[] = " ( PDB_ID LIKE \"%$value%\" OR PROTEIN_NAME LIKE \"%$value%\" OR TAXONOMY LIKE \"%$value%\" OR REMARK LIKE \"%$value%\" )";
     } elseif (strcasecmp($key,'PDB') == 0){
         $query_proteins[] = " PDB_ID LIKE \"$value\"";
@@ -123,6 +123,26 @@ if (isset($_SESSION["view_mode"])) {
 }
 
 
+echo "<h2>Search results</h2>";
+echo "<hr>";
+/** removable search  options */
+echo "<br>";
+$keys=array_keys($options);
+asort($keys);
+foreach ($keys as $key) {
+    $shownkey = trim($key, "123456789");
+    $operator = $options["$key"]["operator"];
+    $value = $options["$key"]["value"];
+    echo "<span class='removable_options'>$shownkey$operator$value [<a href='searchresult.php?remove=$key'>X</a>]&nbsp;</span>";
+}
+echo "<br>";
+
+/** switch view */
+
+
+
+
+
 if (isset($mysql_proteins)) {
     echo $mysql_proteins."<br>";
 } else {
@@ -146,8 +166,5 @@ if (isset($mysql_pairwise)) {
 
 /** 1-20 results of 100 */
 
-/** removable search  options */
-
-/** switch view */
 
 /** results */

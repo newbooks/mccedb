@@ -1,4 +1,4 @@
-/* id */
+/* id - unique in page */
 #header {
     background-color:lightblue;
     text-align:left;
@@ -41,6 +41,12 @@
 
 }
 
+.removable_options {
+    font-family: Sans-serif;
+    color: #606060;
+    font-size: small;
+}
+
 /* tag */
 td {
     position: relative;
@@ -51,67 +57,6 @@ td {
 .address {
     font-size: 12px;
     font-style: italic;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-
-td.bgclr2 {
-    font-size: 12px;
-    font-style: normal;
-    background-color: #C0C0C0;
-    padding-top: 2px;
-    padding-bottom: 2px;
-
-}
-
-td.bgclr1 {
-    font-size: 12px;
-    font-style: normal;
-    background-color: #F0F0F0;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-
-td.bgwhite {
-    font-size: 12px;
-    font-style: normal;
-    background-color: #FFFFFF;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-
-td.smallfont {
-    font-size: 12px;
-    font-style: normal;
-    font-family: Sans-serif;
-    color: #404040;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-
-tr.smallfont {
-    font-size: 12px;
-    font-style: normal;
-    font-family: Sans-serif;
-    color: #404040;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-
-.smallfont {
-    font-size: 12px;
-    font-style: normal;
-    font-family: Sans-serif;
-    color: #000000;
-    padding-top: 2px;
-    padding-bottom: 2px;
-}
-
-.smallfontred {
-    font-size: 12px;
-    font-style: normal;
-    font-family: Sans-serif;
-    color: #FF0000;
     padding-top: 2px;
     padding-bottom: 2px;
 }
