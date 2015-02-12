@@ -157,7 +157,7 @@ $con = @mysql_connect("localhost",$MySQL_user,$MySQL_passwd) or die('Could not c
 mysql_select_db($MySQL_database, $con);
 
 
-/* get all matching UNIQUEIDs */
+/** get UNIQUEIDs from top to bottom search priority */
 $uniqueids = array();
 if (isset($mysql_proteins)) {
     $query = "SELECT UNIQUEID from proteins WHERE" . $mysql_proteins;
@@ -167,7 +167,6 @@ if (isset($mysql_proteins)) {
         $uniqueids[] = $row['UNIQUEID'];
     }
     mysql_free_result($result);
-
 } else {
     $view_mode = "Residue";
 }
@@ -186,6 +185,7 @@ if (isset($mysql_residues)) {
     } else { // refine from existing $uniqueids
         $uniqueids = array_intersect($uniqueids,$uniqueids_temp);
     }
+    mysql_free_result($result);
 }
 if (isset($mysql_mfe)) {
     $uniqueids_temp = array();
@@ -202,6 +202,7 @@ if (isset($mysql_mfe)) {
     } else { // refine from existing $uniqueids
         $uniqueids = array_intersect($uniqueids,$uniqueids_temp);
     }
+    mysql_free_result($result);
 }
 if (isset($mysql_pairwise)) {
     $uniqueids_temp = array();
@@ -217,14 +218,24 @@ if (isset($mysql_pairwise)) {
     } else { // refine from existing $uniqueids
         $uniqueids = array_intersect($uniqueids,$uniqueids_temp);
     }
+    mysql_free_result($result);
 }
 
 $num_result = count($uniqueids);
 num_mode($num_result, $view_mode);
 
 
-
-/** get UNIQUEIDs from top to bottom search priority */
+if (strcasecmp($view_mode,"Protein")==0) {
+    $ids = '"'.join('","', $uniqueids).'"'; // needs to be quoted otherwise - in uniqueid is an illegal char
+    $query = "SELECT * FROM proteins WHERE UNIQUEID IN ($ids)";
+    //echo $query;
+    $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+    while ($row = mysql_fetch_array($result)) {
+        echo $row['PDB_ID'];
+        echo "<br>";
+    }
+    mysql_free_result($result);
+}
 
 
 /** 1-20 results of 100 */
