@@ -186,18 +186,40 @@ if (isset($mysql_residues)) {
     } else { // refine from existing $uniqueids
         $uniqueids = array_intersect($uniqueids,$uniqueids_temp);
     }
-
-    echo $query."<br>";
 }
 if (isset($mysql_mfe)) {
-    echo $mysql_mfe."<br>";
+    $uniqueids_temp = array();
+    $query = "SELECT DISTINCT(UNIQUEID) as UNIQUEID from mfe WHERE" . $mysql_mfe;
+    //echo $query."<br>";
+    $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+    while ($row = mysql_fetch_array($result)) {
+        $uniqueids_temp[] = $row['UNIQUEID'];
+    }
+
+    if (empty($uniqueids)) { //fresh search starting from residue level
+        unset($uniqueids);
+        $uniqueids=$uniqueids_temp;
+    } else { // refine from existing $uniqueids
+        $uniqueids = array_intersect($uniqueids,$uniqueids_temp);
+    }
 }
 if (isset($mysql_pairwise)) {
-    echo $mysql_pairwise."<br>";
+    $uniqueids_temp = array();
+    $query = "SELECT DISTINCT(UNIQUEID) as UNIQUEID from pairwise WHERE" . $mysql_pairwise;
+    $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+    while ($row = mysql_fetch_array($result)) {
+        $uniqueids_temp[] = $row['UNIQUEID'];
+    }
+
+    if (empty($uniqueids)) { //fresh search starting from residue level
+        unset($uniqueids);
+        $uniqueids=$uniqueids_temp;
+    } else { // refine from existing $uniqueids
+        $uniqueids = array_intersect($uniqueids,$uniqueids_temp);
+    }
 }
-print_r($uniqueids);
-echo "<br>";
-$num_result = $num_results[0];
+
+$num_result = count($uniqueids);
 num_mode($num_result, $view_mode);
 
 
