@@ -89,7 +89,7 @@ class PROTEIN:
                     self.residues[s_key] = RESIDUE()
                     self.residues[s_key].uniqueid = self.uniqueid
                     fields = s_key.split("_")
-                    self.residues[s_key].residue = fields[0]
+                    self.residues[s_key].resname = fields[0]
                     self.residues[s_key].cid = fields[1]
                     self.residues[s_key].seq = fields[2]
                 if p_key == "PKA":

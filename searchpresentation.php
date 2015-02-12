@@ -85,7 +85,7 @@ foreach ($keys as $key) {
     }
 }
 
-// checkbox selections
+// checkbox selections to mysql query
 if (isset($options['STRUCTMETHOD1']) or isset($options['STRUCTMETHOD2'])) {
     $query=array();
     if (isset($options['STRUCTMETHOD1'])) {
@@ -157,31 +157,37 @@ $con = @mysql_connect("localhost",$MySQL_user,$MySQL_passwd) or die('Could not c
 mysql_select_db($MySQL_database, $con);
 
 
+/* get all matching UNIQUEIDs */
+$uniqueids = array();
 if (isset($mysql_proteins)) {
-    if (strcasecmp($view_mode, "Protein") == 0) {
-        $query = "SELECT COUNT(*) from proteins WHERE" . $mysql_proteins;
-        //echo $query."<br>";
-        $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
-        $num_results = mysql_fetch_array($result, MYSQL_NUM);
-        $num_result = $num_results[0];
-        mysql_free_result($result);
-        num_mode($num_result, $view_mode);
-    } else {
-        $view_mode = "Residue"; //no protein level search. switch default to residues
-        num_mode($num_result, $view_mode);
+    $query = "SELECT UNIQUEID from proteins WHERE" . $mysql_proteins;
+    //echo $query."<br>";
+    $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+    while ($row = mysql_fetch_array($result)) {
+        $uniqueids[] = $row['UNIQUEID'];
     }
+    mysql_free_result($result);
+
+} else {
+    $view_mode = "Residue";
 }
-
 if (isset($mysql_residues)) {
-    if (strcasecmp($view_mode, "Protein") == 0) {
-
-
-    } else {
-
-
+    $uniqueids_temp = array();
+    $query = "SELECT DISTINCT(UNIQUEID) as UNIQUEID from residues WHERE" . $mysql_residues;
+    //echo $query."<br>";
+    $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+    while ($row = mysql_fetch_array($result)) {
+        $uniqueids_temp[] = $row['UNIQUEID'];
     }
-//    echo '    <td style="text-align:right"><a href="searchresult.php?switchview=Protein">Protein View</a> | Residue View</td>';
-    echo $mysql_residues."<br>";
+
+    if (empty($uniqueids)) { //fresh search starting from residue level
+        unset($uniqueids);
+        $uniqueids=$uniqueids_temp;
+    } else { // refine from existing $uniqueids
+        $uniqueids = array_intersect($uniqueids,$uniqueids_temp);
+    }
+
+    echo $query."<br>";
 }
 if (isset($mysql_mfe)) {
     echo $mysql_mfe."<br>";
@@ -189,6 +195,10 @@ if (isset($mysql_mfe)) {
 if (isset($mysql_pairwise)) {
     echo $mysql_pairwise."<br>";
 }
+print_r($uniqueids);
+echo "<br>";
+$num_result = $num_results[0];
+num_mode($num_result, $view_mode);
 
 
 
