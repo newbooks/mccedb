@@ -1,4 +1,19 @@
 <?php
+
+function num_mode($num_result, $view_mode) {
+    echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
+    echo '<tr>';
+    echo '    <td>Your search returned '.$num_result.' results.</td>';
+    if (strcasecmp($view_mode, "Protein") == 0) {
+        echo '    <td style="text-align:right">Protein View | <a href="searchresult.php?switchview=Residue">Residue View</a></td>';
+    } else {
+        echo '    <td style="text-align:right"><a href="searchresult.php?switchview=Protein">Protein View</a> | Residue View</td>';
+    }
+    echo '</tr>';
+    echo '</table>';
+}
+
+
 $keys = array_keys($options);
 
 /** Compose sql search terms
@@ -116,9 +131,6 @@ if (!empty($query_pairwise)) {
     $mysql_pairwise = join(" AND ",$query_pairwise);
 }
 
-
-
-
 echo "<h2>Search results</h2>";
 echo "<hr>";
 /** removable search  options */
@@ -145,32 +157,30 @@ $con = @mysql_connect("localhost",$MySQL_user,$MySQL_passwd) or die('Could not c
 mysql_select_db($MySQL_database, $con);
 
 
-/* Get UNIQUEIDs */
 if (isset($mysql_proteins)) {
-    $query="SELECT COUNT(*) from proteins WHERE".$mysql_proteins;
-    //echo $query."<br>";
-    $result=@mysql_query($query) or die('Invalid query: ' .mysql_error());
-    $num_results = mysql_fetch_array($result, MYSQL_NUM);
-    $num_result  = $num_results[0];
-    echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
-    echo '<tr>';
-    echo '    <td>Total result: '.$num_result.'</td>';
-
     if (strcasecmp($view_mode, "Protein") == 0) {
-        echo '    <td style="text-align:right">Protein View | <a href="searchresult.php?switchview=Residue">Residue View</a></td>';
+        $query = "SELECT COUNT(*) from proteins WHERE" . $mysql_proteins;
+        //echo $query."<br>";
+        $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+        $num_results = mysql_fetch_array($result, MYSQL_NUM);
+        $num_result = $num_results[0];
+        mysql_free_result($result);
+        num_mode($num_result, $view_mode);
     } else {
-        echo '    <td style="text-align:right"><a href="searchresult.php?switchview=Protein">Protein View</a> | Residue View</td>';
+        $view_mode = "Residue"; //no protein level search. switch default to residues
+        num_mode($num_result, $view_mode);
     }
-    echo '</tr>';
-    echo '</table>';
-
-
-    mysql_free_result($result);
-} else {
-    $view_mode = "Residue"; //no protein level search. switch default to residues
 }
 
 if (isset($mysql_residues)) {
+    if (strcasecmp($view_mode, "Protein") == 0) {
+
+
+    } else {
+
+
+    }
+//    echo '    <td style="text-align:right"><a href="searchresult.php?switchview=Protein">Protein View</a> | Residue View</td>';
     echo $mysql_residues."<br>";
 }
 if (isset($mysql_mfe)) {
