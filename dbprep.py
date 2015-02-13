@@ -5,6 +5,7 @@
 import requests
 import uuid
 import xml.etree.ElementTree as ET
+import re
 
 from os import stat
 from pwd import getpwuid
@@ -330,6 +331,7 @@ class PROTEIN:
                         p.chains.append(child.attrib["id"])
                     elif child.tag=='Taxonomy':
                         p.taxonomy=child.attrib["name"]
+                        p.taxonomy = re.sub('[\']','',p.taxonomy)
                     elif child.tag=='macroMolecule':
                         p.name=child.attrib["name"]
                     elif child.tag=='fragment':
