@@ -106,12 +106,11 @@ if (isset($_GET['remove'])) {
     unset($options[$_GET['remove']]);
 }
 
-/* The following is to remove "ANY=" when other constraints exist and add this when non other constraint exists
+/* The following is to remove "ANY=" when other constraints exist and add this when non other constraint exists */
 if (!empty($options)) {
     $item="ANY=";
     $options = Remove_option($item, $options);
 }
-*/
 if (empty($options)) {
     $options = ["ANY" => ["operator"=>"=", "value"=>""]];
 }
@@ -126,7 +125,7 @@ if (isset($_GET['switchview'])) {
 }
 
 
-print_r($options);
+//print_r($options);
 
 // Refine by
 

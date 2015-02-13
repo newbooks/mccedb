@@ -234,19 +234,48 @@ if (strcasecmp($view_mode,"Protein")==0) {
     $end = min($num_result, $start+$PROTEINS_PER_PAGE);
     $uniqueids_page = array_slice($uniqueids, $start, $PROTEINS_PER_PAGE);
 
-
     num_mode($start, $end, $num_result, $view_mode);
-
 
 
     $ids = '"'.join('","', $uniqueids_page).'"'; // needs to be quoted otherwise - in uniqueid is an illegal char
     $query = "SELECT * FROM proteins WHERE UNIQUEID IN ($ids)";
     //echo $query;
     $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+
+    echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
+
     while ($row = mysql_fetch_array($result)) {
-        echo $row['PDB_ID'];
-        echo "<br>";
+        $pdb=$row['PDB_ID'];
+        echo "<tr>";
+
+        echo '<td style="width: 150px"><image src="http://www.pdb.org/pdb/images/'.$pdb.'_bio_r_500.jpg" alter="assembly" style="width:150px"></image></td>';
+        echo '<td style="width: auto; vertical-align: bottom">';
+
+        echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:1%'>PDB:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'>".$row['PDB_ID']."</td></tr>";
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:1%'>Chain IDs:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'>".$row['CHAIN_IDS']."</td></tr>";
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:1%'>Name:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'>".$row['PROTEIN_NAME']."</td></tr>";
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:1%'>Source:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'>".$row['TAXONOMY']."</td></tr>";
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:1%'>pKa Method:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'>".$row['PKA_METHOD']."</td></tr>";
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:1%'>Dielectric Constant:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'>".$row['EPSILON']."</td></tr>";
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:1%'>Remark:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'>".$row['REMARK']."</td></tr>";
+        echo "</table>";
+
+        echo "<hr>";
+        echo "</td>";
+        echo "</tr>";
+
     }
+
+
+    echo "</table>";
     mysql_free_result($result);
 
 
