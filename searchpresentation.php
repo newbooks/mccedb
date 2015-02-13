@@ -235,7 +235,7 @@ if (strcasecmp($view_mode,"Protein")==0) {
     $uniqueids_page = array_slice($uniqueids, $start, $PROTEINS_PER_PAGE);
 
     num_mode($start, $end, $num_result, $view_mode);
-
+    echo "<hr>";
 
     $ids = '"'.join('","', $uniqueids_page).'"'; // needs to be quoted otherwise - in uniqueid is an illegal char
     $query = "SELECT * FROM proteins WHERE UNIQUEID IN ($ids)";
@@ -246,6 +246,7 @@ if (strcasecmp($view_mode,"Protein")==0) {
     echo '<div class="protein_view">';
     while ($row = mysql_fetch_array($result)) {
         $pdb=$row['PDB_ID'];
+        echo '<div style="display: inline-block; white-space: nowrap">';
         echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
         echo "<tr>";
 
@@ -274,7 +275,7 @@ if (strcasecmp($view_mode,"Protein")==0) {
         echo "</td>";
         echo "</tr>";
         echo "</table>";
-
+        echo "</div>";
     }
     echo "</div>";
 
