@@ -1,9 +1,9 @@
 <?php
 
-function num_mode($num_result, $view_mode) {
+function num_mode($start, $end, $num_result, $view_mode) {
     echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
     echo '<tr>';
-    echo '    <td>Your search returned '.$num_result.' results.</td>';
+    echo "    <td>$start - $end of $num_result results.</td>";
     if (strcasecmp($view_mode, "Protein") == 0) {
         echo '    <td style="text-align:right">Protein View | <a href="searchresult.php?switchview=Residue">Residue View</a></td>';
     } else {
@@ -222,11 +222,24 @@ if (isset($mysql_pairwise)) {
 }
 
 $num_result = count($uniqueids);
-num_mode($num_result, $view_mode);
 
 
 if (strcasecmp($view_mode,"Protein")==0) {
-    $ids = '"'.join('","', $uniqueids).'"'; // needs to be quoted otherwise - in uniqueid is an illegal char
+    if (isset($_SESSION['current_page'])) {
+        $current_page = $_SESSION['current_page'];
+    } else {
+        $current_page = 1;
+    }
+    $start = ($current_page-1)*$PROTEINS_PER_PAGE;
+    $end = min($num_result, $start+$PROTEINS_PER_PAGE);
+    $uniqueids_page = array_slice($uniqueids, $start, $PROTEINS_PER_PAGE);
+
+
+    num_mode($start, $end, $num_result, $view_mode);
+
+
+
+    $ids = '"'.join('","', $uniqueids_page).'"'; // needs to be quoted otherwise - in uniqueid is an illegal char
     $query = "SELECT * FROM proteins WHERE UNIQUEID IN ($ids)";
     //echo $query;
     $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
@@ -235,6 +248,16 @@ if (strcasecmp($view_mode,"Protein")==0) {
         echo "<br>";
     }
     mysql_free_result($result);
+
+
+
+
+
+
+} else {
+    // we need to get PDB_ID, calculation summary, RESNAME, CID, SEQ from uniqueids list and residue level and blow queries
+
+
 }
 
 

@@ -106,9 +106,16 @@ if (isset($_GET['remove'])) {
     unset($options[$_GET['remove']]);
 }
 
+/* The following is to remove "ANY=" when other constraints exist and add this when non other constraint exists
+if (!empty($options)) {
+    $item="ANY=";
+    $options = Remove_option($item, $options);
+}
+*/
 if (empty($options)) {
     $options = ["ANY" => ["operator"=>"=", "value"=>""]];
 }
+
 $_SESSION["options"] = $options;
 /** Print page to get new search options
  */
@@ -119,7 +126,7 @@ if (isset($_GET['switchview'])) {
 }
 
 
-//print_r($options);
+print_r($options);
 
 // Refine by
 
@@ -134,6 +141,10 @@ HTML;
 
 // Suggestions, check boxes, Any checkbox value should also be added to the scan section above
 echo '<form id="form" action="searchresult.php" method="post">';
+
+/* This is a flag, whose function is to indicate an event in checkbox click, even if all are unchecked */
+echo '   <input type="checkbox" class="hidden" value="flag" name="checkboxes[]" checked="checked" style="display:none"/>';
+
 echo '   <div style="color: #606060">Structure Method:</div>';
 echo '   <input type="checkbox" class="checkbox" value="STRUCTMETHOD1=xray" name="checkboxes[]" ';
 if (isset($options['STRUCTMETHOD1'])) {
