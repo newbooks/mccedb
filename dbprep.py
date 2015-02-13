@@ -363,7 +363,10 @@ class PROTEIN:
         for child in root:
             if child.tag=="PDB":
                 expmethod=child.attrib["expMethod"]
-                resolution=float(child.attrib["resolution"])
+                try:
+                    resolution=float(child.attrib["resolution"])
+                except:
+                    resolution=0.0
 
 
         f = open(submitfile, "w")
