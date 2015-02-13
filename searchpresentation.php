@@ -242,11 +242,11 @@ if (strcasecmp($view_mode,"Protein")==0) {
     //echo $query;
     $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
 
-    echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
 
     echo '<div class="protein_view">';
     while ($row = mysql_fetch_array($result)) {
         $pdb=$row['PDB_ID'];
+        echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
         echo "<tr>";
 
         echo '<td style="width: 150px"><image src="http://www.pdb.org/pdb/images/'.$pdb.'_bio_r_500.jpg" alter="assembly" style="width:150px"></image></td>';
@@ -273,12 +273,12 @@ if (strcasecmp($view_mode,"Protein")==0) {
         echo "<hr>";
         echo "</td>";
         echo "</tr>";
+        echo "</table>";
 
     }
     echo "</div>";
 
 
-    echo "</table>";
     mysql_free_result($result);
 
 

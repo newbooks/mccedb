@@ -48,9 +48,9 @@
 }
 
 .protein_view {
-    -webkit-columns: 50% 2; /* Chrome, Safari, Opera */
-    -moz-columns: 50% 2; /* Firefox */
-    columns: 50% 2;
+    -webkit-columns: 430px 2; /* Chrome, Safari, Opera */
+    -moz-columns: 430px 2; /* Firefox */
+    columns: 430px 2;
 }
 
 /* tag */
