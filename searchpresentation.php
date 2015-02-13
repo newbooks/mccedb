@@ -244,6 +244,7 @@ if (strcasecmp($view_mode,"Protein")==0) {
 
     echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
 
+    echo '<div class="protein_view">';
     while ($row = mysql_fetch_array($result)) {
         $pdb=$row['PDB_ID'];
         echo "<tr>";
@@ -268,11 +269,13 @@ if (strcasecmp($view_mode,"Protein")==0) {
         echo "<td style='font-style: italic'>".$row['REMARK']."</td></tr>";
         echo "</table>";
 
+
         echo "<hr>";
         echo "</td>";
         echo "</tr>";
 
     }
+    echo "</div>";
 
 
     echo "</table>";

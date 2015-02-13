@@ -47,6 +47,12 @@
     font-size: small;
 }
 
+.protein_view {
+    -webkit-columns: 50% 2; /* Chrome, Safari, Opera */
+    -moz-columns: 50% 2; /* Firefox */
+    columns: 50% 2;
+}
+
 /* tag */
 td {
     position: relative;
