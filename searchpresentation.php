@@ -62,7 +62,7 @@ foreach ($keys as $key) {
         if (strcasecmp($value,'X RAY') == 0 or strcasecmp($value,'XRD')==0 or strcasecmp($value,'X-RAY')==0 ) {
             $value = "X-RAY DIFFRACTION";
         }
-        $query_proteins[] = " STRUCTURE_METHOD like \"$value\"";
+        $query_proteins[] = " STRUCTURE_METHOD like \"%$value%\"";
     } elseif (strcasecmp($key,'PKA METHOD') == 0) {
         $query_proteins[] = " PKA_METHOD like \"$value\"";
     } elseif (strcasecmp($key,'EPSILON') == 0) {
@@ -110,7 +110,7 @@ if (isset($options['STRUCTMETHOD1']) or isset($options['STRUCTMETHOD2'])) {
         $query[] = " STRUCTURE_METHOD like \"X-RAY DIFFRACTION\"";
     }
     if (isset($options['STRUCTMETHOD2'])) {
-        $query[] = " STRUCTURE_METHOD like \"NMR\"";
+        $query[] = " STRUCTURE_METHOD like \"%NMR%\"";
     }
     $query_proteins[] = "( ".join(" OR ", $query)." )";
 }
@@ -252,6 +252,9 @@ if (strcasecmp($view_mode,"Protein")==0) {
     $end = min($num_result, $start+$PROTEINS_PER_PAGE-1);
     $uniqueids_page = array_slice($uniqueids, $start-1, $PROTEINS_PER_PAGE);
 
+    if ($end < $start) {
+        $start = $end;
+    }
     num_mode($start, $end, $num_result, $PROTEINS_PER_PAGE, $view_mode);
     echo "<hr>";
 
