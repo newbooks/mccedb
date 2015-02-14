@@ -1,9 +1,27 @@
 <?php
 
-function num_mode($start, $end, $num_result, $view_mode) {
+function num_mode($start, $end, $num_result, $items_per_page, $view_mode) {
     echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
     echo '<tr>';
     echo "    <td>$start - $end of $num_result results.</td>";
+    $pages=ceil($num_result/$items_per_page);
+    $cur_page = ceil($start/$items_per_page);
+    $start_page = max(1, $cur_page - 5);
+    echo "<td>";
+    if ($cur_page > 1) {
+        echo ' <a href="searchresult.php?page='.($cur_page-1).'"  style="text-decoration:none;"><</a> ';
+    }
+    for ( $page = $start_page; $page <= min($pages, $start_page+10); $page++) {
+        echo " <a href=\"searchresult.php?page=$page\">$page</a> ";
+    }
+    if ( $pages > $start_page+10) {
+        echo " ... ";
+    }
+    if ($cur_page < $pages) {
+        echo ' <a href="searchresult.php?page='.($cur_page+1).'"  style="text-decoration:none;">></a> ';
+    }
+    echo "</td>";
+
     if (strcasecmp($view_mode, "Protein") == 0) {
         echo '    <td style="text-align:right">Protein View | <a href="searchresult.php?switchview=Residue">Residue View</a></td>';
     } else {
@@ -225,16 +243,16 @@ $num_result = count($uniqueids);
 
 
 if (strcasecmp($view_mode,"Protein")==0) {
-    if (isset($_SESSION['current_page'])) {
-        $current_page = $_SESSION['current_page'];
+    if (isset($_GET['page'])) {
+        $current_page = $_GET['page'];
     } else {
         $current_page = 1;
     }
-    $start = ($current_page-1)*$PROTEINS_PER_PAGE;
-    $end = min($num_result, $start+$PROTEINS_PER_PAGE);
-    $uniqueids_page = array_slice($uniqueids, $start, $PROTEINS_PER_PAGE);
+    $start = ($current_page-1)*$PROTEINS_PER_PAGE+1;
+    $end = min($num_result, $start+$PROTEINS_PER_PAGE-1);
+    $uniqueids_page = array_slice($uniqueids, $start-1, $PROTEINS_PER_PAGE);
 
-    num_mode($start, $end, $num_result, $view_mode);
+    num_mode($start, $end, $num_result, $PROTEINS_PER_PAGE, $view_mode);
     echo "<hr>";
 
     $ids = '"'.join('","', $uniqueids_page).'"'; // needs to be quoted otherwise - in uniqueid is an illegal char
@@ -290,7 +308,7 @@ if (strcasecmp($view_mode,"Protein")==0) {
 } else {
     // we need to get PDB_ID, calculation summary, RESNAME, CID, SEQ from uniqueids list and residue level and blow queries
 
-
+    num_mode($start, $end, $num_result, $PROTEINS_PER_PAGE, $view_mode);
 }
 
 
