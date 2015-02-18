@@ -303,14 +303,12 @@ if (strcasecmp($view_mode,"Protein")==0) {
 
 
 } else { //show residues match paged uniqueids list and other residue level queries
-    echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
-    $c = False;
     foreach($uniqueids_page as $uniqueid) {
         // protein level information
         $query = "SELECT PDB_ID, PKA_METHOD, EPSILON from proteins WHERE UNIQUEID = \"$uniqueid\"";
         $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
         $row = mysql_fetch_array($result);
-        $pdb_id = $row['PDB_ID'];
+        $pdb = $row['PDB_ID'];
         $pka_method = $row['PKA_METHOD'];
         $epsilon = $row['EPSILON'];
         mysql_free_result($result);
@@ -355,9 +353,20 @@ if (strcasecmp($view_mode,"Protein")==0) {
             mysql_free_result($result);
         }
 
+        echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
+        echo '<tr>';
+        echo '<th><image src="http://www.pdb.org/pdb/images/'.$pdb.'_bio_r_500.jpg" alter="assembly" style="width:80px"/></th>';
+        echo "<th>pKa Method</th>";
+        echo "<th>Dielectric constant</th>";
+        echo "<th>Residue</th>";
+        echo "<th>Chain ID</th>";
+        echo "<th>Sequence</th>";
+        echo "<th>pKa</th>";
+        echo "</tr>";
+        $c = False;
         foreach ($residues_to_show as $residue => $pka) {
             echo '<tr '.(($c = !$c)?' class="odd_line"':'').'>';
-            echo "<td>$pdb_id</td>";
+            echo "<td>$pdb</td>";
             echo "<td>$pka_method</td>";
             echo "<td>$epsilon</td>";
             $fields=explode(":", $residue);
@@ -367,9 +376,9 @@ if (strcasecmp($view_mode,"Protein")==0) {
             echo "<td>$pka</td>";
             echo "</tr>";
         }
-
+        echo "</table>";
+        echo "<hr>";
     }
-    echo "</table>";
 
 
 
