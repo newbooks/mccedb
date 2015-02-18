@@ -53,6 +53,10 @@
     columns: 430px 2;
 }
 
+.odd_line {
+    background-color: lightgray;
+}
+
 /* tag */
 td {
     position: relative;

@@ -3,7 +3,7 @@
 function num_mode($start, $end, $num_result, $items_per_page, $view_mode) {
     echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
     echo '<tr>';
-    echo "    <td>$start - $end of $num_result results.</td>";
+    echo "    <td>Results in $start - $end of $num_result proteins.</td>";
     $pages=ceil($num_result/$items_per_page);
     $cur_page = ceil($start/$items_per_page);
     $start_page = max(1, $cur_page - 5);
@@ -239,22 +239,22 @@ if (isset($mysql_pairwise)) {
 
 $num_result = count($uniqueids);
 
+if (isset($_GET['page'])) {
+    $current_page = $_GET['page'];
+} else {
+    $current_page = 1;
+}
+$start = ($current_page-1)*$PROTEINS_PER_PAGE+1;
+$end = min($num_result, $start+$PROTEINS_PER_PAGE-1);
+$uniqueids_page = array_slice($uniqueids, $start-1, $PROTEINS_PER_PAGE);
+
+if ($end < $start) {
+    $start = $end;
+}
+num_mode($start, $end, $num_result, $PROTEINS_PER_PAGE, $view_mode);
+echo "<hr>";
 
 if (strcasecmp($view_mode,"Protein")==0) {
-    if (isset($_GET['page'])) {
-        $current_page = $_GET['page'];
-    } else {
-        $current_page = 1;
-    }
-    $start = ($current_page-1)*$PROTEINS_PER_PAGE+1;
-    $end = min($num_result, $start+$PROTEINS_PER_PAGE-1);
-    $uniqueids_page = array_slice($uniqueids, $start-1, $PROTEINS_PER_PAGE);
-
-    if ($end < $start) {
-        $start = $end;
-    }
-    num_mode($start, $end, $num_result, $PROTEINS_PER_PAGE, $view_mode);
-    echo "<hr>";
 
     $ids = '"'.join('","', $uniqueids_page).'"'; // needs to be quoted otherwise - in uniqueid is an illegal char
     $query = "SELECT * FROM proteins WHERE UNIQUEID IN ($ids)";
@@ -302,19 +302,79 @@ if (strcasecmp($view_mode,"Protein")==0) {
     mysql_free_result($result);
 
 
-} else {
-    // we need to get PDB_ID, calculation summary, RESNAME, CID, SEQ from uniqueids list and residue level and blow queries
+} else { //show residues match paged uniqueids list and other residue level queries
+    echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
+    $c = False;
+    foreach($uniqueids_page as $uniqueid) {
+        // protein level information
+        $query = "SELECT PDB_ID, PKA_METHOD, EPSILON from proteins WHERE UNIQUEID = \"$uniqueid\"";
+        $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+        $row = mysql_fetch_array($result);
+        $pdb_id = $row['PDB_ID'];
+        $pka_method = $row['PKA_METHOD'];
+        $epsilon = $row['EPSILON'];
+        mysql_free_result($result);
 
+        // Residue level information
 
-    num_mode($start, $end, $num_result, $PROTEINS_PER_PAGE, $view_mode);
-    echo "<hr>";
+        // residue level restriction
+        $residues_to_show = array();
+        if (isset($mysql_residues)) { // This doesn't need array intersect as conditions are included already
+            $query = 'SELECT RESNAME, CID, SEQ, PKA from residues WHERE UNIQUEID = "'.$uniqueid.'" AND '.$mysql_residues.' ORDER BY CID, SEQ';
+        } else {
+            $query = 'SELECT RESNAME, CID, SEQ, PKA from residues WHERE UNIQUEID = "'.$uniqueid.'" ORDER BY CID, SEQ';
+        }
+        $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+        while ($row = mysql_fetch_array($result)) {
+            $residues_to_show[$row['RESNAME'].":".$row['CID'].":".$row['SEQ']] = $row['PKA'];
+        }
+        mysql_free_result($result);
 
-    $residues_to_show = array();
-    if (isset($mysql_residues)) {
-        $query = "SELECT DISTINCT UNIQUEID, RESNAME, CID, SEQ from residues WHERE" . $mysql_residues;
+        if (isset($mysql_mfe)) {
+            $residues_to_show_temp = array();
+            $query = 'SELECT DISTINCT RESNAME, CID, SEQ from mfe WHERE UNIQUEID = "'.$uniqueid.'" AND '.$mysql_mfe.' ORDER BY CID, SEQ';
+            $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+            while ($row = mysql_fetch_array($result)) {
+                $residues_to_show_temp[$row['RESNAME'].":".$row['CID'].":".$row['SEQ']] = "";
+            }
 
+            $residues_to_show = array_intersect_key($residues_to_show,$residues_to_show_temp);
+            mysql_free_result($result);
+
+        }
+
+        if (isset($mysql_pairwise)) {
+            $residues_to_show_temp = array();
+            $query = 'SELECT DISTINCT RESNAME, CID, SEQ from pairwise WHERE UNIQUEID = "'.$uniqueid.'" AND '.$mysql_pairwise.' ORDER BY CID, SEQ';
+            $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+            while ($row = mysql_fetch_array($result)) {
+                $residues_to_show_temp[$row['RESNAME'].":".$row['CID'].":".$row['SEQ']] = "";
+            }
+
+            $residues_to_show = array_intersect_key($residues_to_show,$residues_to_show_temp);
+            mysql_free_result($result);
+        }
+
+        foreach ($residues_to_show as $residue => $pka) {
+            echo '<tr '.(($c = !$c)?' class="odd_line"':'').'>';
+            echo "<td>$pdb_id</td>";
+            echo "<td>$pka_method</td>";
+            echo "<td>$epsilon</td>";
+            $fields=explode(":", $residue);
+            echo "<td>$fields[0]</td>";
+            echo "<td>$fields[1]</td>";
+            echo "<td>$fields[2]</td>";
+            echo "<td>$pka</td>";
+            echo "</tr>";
+        }
 
     }
+    echo "</table>";
+
+
+
+
+
 
 
 }
