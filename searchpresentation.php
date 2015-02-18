@@ -94,7 +94,7 @@ foreach ($keys as $key) {
         $query_residues[] = " PKA $operator \"$value\"";
     } elseif (strcasecmp($key,'SEQUENCE') == 0) {
         $query_residues[] = " SEQ $operator \"$value\"";
-    } elseif (strcasecmp($key,'DSOL') == 0) {
+    } elseif (strcasecmp($key,'DSOL') == 0 or strcasecmp($key,'DSOLV') == 0) {
         $query_mfe[] = " DSOL $operator \"$value\"";
     } elseif (strcasecmp($key,'TOTALPW') == 0) {
         $query_mfe[] = " TOTALPW $operator \"$value\"";
@@ -185,8 +185,6 @@ if (isset($mysql_proteins)) {
         $uniqueids[] = $row['UNIQUEID'];
     }
     mysql_free_result($result);
-} else {
-    $view_mode = "Residue";
 }
 if (isset($mysql_residues)) {
     $uniqueids_temp = array();
@@ -304,14 +302,21 @@ if (strcasecmp($view_mode,"Protein")==0) {
     mysql_free_result($result);
 
 
-
-
-
-
 } else {
     // we need to get PDB_ID, calculation summary, RESNAME, CID, SEQ from uniqueids list and residue level and blow queries
 
+
     num_mode($start, $end, $num_result, $PROTEINS_PER_PAGE, $view_mode);
+    echo "<hr>";
+
+    $residues_to_show = array();
+    if (isset($mysql_residues)) {
+        $query = "SELECT DISTINCT UNIQUEID, RESNAME, CID, SEQ from residues WHERE" . $mysql_residues;
+
+
+    }
+
+
 }
 
 
