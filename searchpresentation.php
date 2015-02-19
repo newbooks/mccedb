@@ -354,10 +354,25 @@ if (strcasecmp($view_mode,"Protein")==0) {
         }
 
         echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
+        echo '<tr><td style="width: 25%; vertical-align: top;" >';
+
+        echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
+        echo '<tr><td style="text-align: center" colspan="3"><image src="http://www.pdb.org/pdb/images/'.$pdb.'_bio_r_500.jpg" alter="assembly" style="width:100px"/></td></tr>';
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:50%'>PDB:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'> $pdb </td></tr>";
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:50%'>pKa Method:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'> $pka_method </td></tr>";
+        echo "<tr><td style='text-align: right; white-space:nowrap; width:50%'>Dielectric:</td><td style='width: 5px'/>";
+        echo "<td style='font-style: italic'> $epsilon </td></tr>";
+        echo '</table>';
+
+
+        echo '</td>';
+
+        echo '<td>';
+
+        echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
         echo '<tr>';
-        echo '<th><image src="http://www.pdb.org/pdb/images/'.$pdb.'_bio_r_500.jpg" alter="assembly" style="width:80px"/></th>';
-        echo "<th>pKa Method</th>";
-        echo "<th>Dielectric constant</th>";
         echo "<th>Residue</th>";
         echo "<th>Chain ID</th>";
         echo "<th>Sequence</th>";
@@ -366,9 +381,6 @@ if (strcasecmp($view_mode,"Protein")==0) {
         $c = False;
         foreach ($residues_to_show as $residue => $pka) {
             echo '<tr '.(($c = !$c)?' class="odd_line"':'').'>';
-            echo "<td>$pdb</td>";
-            echo "<td>$pka_method</td>";
-            echo "<td>$epsilon</td>";
             $fields=explode(":", $residue);
             echo "<td>$fields[0]</td>";
             echo "<td>$fields[1]</td>";
@@ -376,6 +388,10 @@ if (strcasecmp($view_mode,"Protein")==0) {
             echo "<td>$pka</td>";
             echo "</tr>";
         }
+        echo "</table>";
+
+
+        echo '</td></tr>';
         echo "</table>";
         echo "<hr>";
     }
