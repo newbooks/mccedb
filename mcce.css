@@ -75,3 +75,6 @@ th {
     padding-bottom: 2px;
 }
 
+p.content-res {
+     display: none;
+}
