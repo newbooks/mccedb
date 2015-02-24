@@ -301,16 +301,15 @@ if (strcasecmp($view_mode,"Protein")==0) {
 
     mysql_free_result($result);
 
-} else { //show residues match paged uniqueids list and other residue level queries
-    //$_SESSION["options"] = $options;
-
+} else {
     if (isset($_GET["export"])) {
-        if ($_GET["export"] == "residues") {
+        if ($_GET["export"] == "residues") { // all residues in one page
             $count=0;
             echo '<a href="searchresult.php" style="font-size: small; font-family: Sans-serif">Normal view</a>';
             echo "<hr>";
             echo '<p class="expand-res"> <a href="#">Click to show residues</a></p>';
             echo '<p class="content-res">';
+            echo 'PDB; Method, Dielectric constant; Residue; Chain ID; Sequence; pKa<br>';
             foreach($uniqueids as $uniqueid) {
                 // protein level information
                 $query = "SELECT PDB_ID, PKA_METHOD, EPSILON from proteins WHERE UNIQUEID = \"$uniqueid\"";
