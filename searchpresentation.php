@@ -265,11 +265,12 @@ if (strcasecmp($view_mode,"Protein")==0) {
     echo '<div class="protein_view">';
     while ($row = mysql_fetch_array($result)) {
         $pdb=$row['PDB_ID'];
+        $uniqueid=$row['UNIQUEID'];
         echo '<div style="display: inline-block; white-space: nowrap">';
         echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
         echo "<tr>";
 
-        echo '<td style="width: 150px"><image src="http://www.pdb.org/pdb/images/'.$pdb.'_bio_r_500.jpg" alter="assembly" style="width:150px"></image></td>';
+        echo '<td style="width: 150px"><a href="analysis.php?id='.$uniqueid.'"> <image src="http://www.pdb.org/pdb/images/' . $pdb . '_bio_r_500.jpg" alter="assembly" style="width:150px"/></a></td>';
         echo '<td style="width: auto; vertical-align: bottom">';
 
         echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
@@ -439,7 +440,7 @@ if (strcasecmp($view_mode,"Protein")==0) {
             echo '<tr><td style="width: 25%; vertical-align: top;" >';
 
             echo '<table style="width: 100%;" cellpadding="0" cellspacing="0">';
-            echo '<tr><td style="text-align: center" colspan="3"><image src="http://www.pdb.org/pdb/images/' . $pdb . '_bio_r_500.jpg" alter="assembly" style="width:100px"/></td></tr>';
+            echo '<tr><td style="text-align: center" colspan="3"><a href="analysis.php?id='.$uniqueid.'"> <image src="http://www.pdb.org/pdb/images/' . $pdb . '_bio_r_500.jpg" alter="assembly" style="width:100px"/></a></td></tr>';
             echo "<tr><td style='text-align: right; white-space:nowrap; width:50%'>PDB:</td><td style='width: 5px'/>";
             echo "<td style='font-style: italic'> $pdb </td></tr>";
             echo "<tr><td style='text-align: right; white-space:nowrap; width:50%'>pKa Method:</td><td style='width: 5px'/>";
