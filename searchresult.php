@@ -14,7 +14,7 @@
 
 <table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0">
     <tr>
-        <td style="width:20%" id="leftpanel">
+        <td style="width:20%" id="optionpanel">
             <?php
                 include("searchoptions.php");
             ?>

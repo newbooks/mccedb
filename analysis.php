@@ -14,15 +14,12 @@
 
 <table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0">
     <tr>
-        <td style="width:20%" id="leftpanel">
-            <?php
-                include("residuelist.php");
-            ?>
+        <td style="width:80%" id="mainarea">
+            <?php include("detailpresentation.php"); ?>
         </td>
-        <td id="mainarea">
-            <?php
-                include("mfe.php");
-            ?>
+        <td id="optionpanel">
+            <?php include("residuelist.php"); ?>
+
         </td>
     </tr>
 </table>

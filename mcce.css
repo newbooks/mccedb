@@ -4,11 +4,11 @@
     text-align:left;
     padding:5px;
 }
-#leftpanel {
+#optionpanel {
     line-height:30px;
     background-color:whitesmoke;
     height:300px;
-    width:100px;
+    width:200px;
     float:left;
     padding:5px;
     vertical-align: top;
@@ -16,6 +16,7 @@
 
 #mainarea {
     background-color: white;
+    width:90%;
     text-align: left;
     padding: 5px;
     vertical-align: top;
@@ -56,6 +57,12 @@
 .odd_line {
     background-color: ghostwhite;
 }
+
+.scrollable {
+    overflow-y: auto;
+    height: 600px;
+}
+
 
 /* tag */
 td {

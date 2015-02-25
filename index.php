@@ -11,7 +11,7 @@
 <?php include("header.php") ?>
 <table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0">
     <tr>
-        <td style="width:20%" id="leftpanel"><?php include("latestentries.php"); ?></td>
+        <td style="width:20%" id="optionpanel"><?php include("latestentries.php"); ?></td>
         <td id="mainarea"><?php include("introduction.php"); ?></td>
     </tr>
 </table>

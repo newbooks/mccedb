@@ -1,1 +1,43 @@
+<div class="removable_options">Residues</div>
+<div class="scrollable">
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
+    <p>Test scrollable</p>
 <?php
+?>
+</div>
