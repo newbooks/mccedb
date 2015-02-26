@@ -5,6 +5,7 @@
     <title>MCCE pKa Database</title>
     <link rel="stylesheet" type="text/css" href="mcce.css"/>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 </head>
 
 <body>
