@@ -1,7 +1,8 @@
 <?php session_start(); ?>
 <html>
 <head>
-    <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
+    <meta http-equiv="refresh" content="0; url=http://134.74.76.135/searchresult.php" />
+    <!--meta content="text/html; charset=ISO-8859-1" http-equiv="content-type" -->
     <title>MCCE pKa Database</title>
     <link rel="stylesheet" type="text/css" href="mcce.css"/>
 </head>
@@ -17,6 +18,7 @@
 </table>
 
 <?php include("footer.php"); ?>
+
 
 
 </body>
