@@ -31,9 +31,15 @@ if (isset($_GET["uniqueid"])) {
         } elseif ($_GET["level"] == "residue") {
             $query = 'SELECT * from residues WHERE UNIQUEID = "' . $uniqueid . '" ORDER BY CID, SEQ';
             $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+            $allresidues = array();
             while ($row = mysql_fetch_array($result)) {
-                $residues_to_show[$row['RESNAME'] . ":" . $row['CID'] . ":" . $row['SEQ']] = $row['PKA'];
+                $arr=array();
+                foreach ($row as $a => $b) {
+                    $arr[$a] = $b;
+                }
+                $allresidues[]=$arr;
             }
+            echo json_encode($allresidues);
             mysql_free_result($result);
         } elseif ($_GET["level"] == "mfe") {
 
