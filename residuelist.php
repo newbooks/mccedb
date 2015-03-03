@@ -65,10 +65,5 @@
     xmlhttp2.send();
 
 
-
-
-
-
-
 </script>
 
