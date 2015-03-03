@@ -1,8 +1,9 @@
 <div class="removable_options">Residues</div>
 
 <div class="scrollable">
-    <div id="ResiduePKas" />
+    <div id="ResiduePKas"> </div>
 </div>
+
 
 <script type="text/javascript">
 
@@ -17,52 +18,127 @@
     var titrations = {};
 
     // Get protein
-    var xmlhttp = new XMLHttpRequest();
-    var url = "dbengine.php?uniqueid=" + uniqueid + "&level=protein";
-
-    xmlhttp.onreadystatechange = function() {
-        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            var protein = JSON.parse(xmlhttp.responseText);
-            titrations.Protein_PI = {"label": "Protein PI", "pka": protein.ISOELECTRIC_POINT, "data":[]};
+    $.ajax({
+        dataType: "json",
+        url: "dbengine.php",
+        data: {"uniqueid": uniqueid, "level":"protein"},
+        success: function (protein) {
             var fields=protein.PROTEIN_TITRATION.split(";");
+            titrations.Protein_PI = {};
+            titrations.Protein_PI.label = "Protein PI";
+            titrations.Protein_PI.pKa = protein.ISOELECTRIC_POINT;
+            titrations.Protein_PI.data = [];
             for (var i=0; i < fields.length; i++) {
                 var point=fields[i];
                 var point_value=point.split(":");
                 titrations.Protein_PI.data.push([point_value[0],point_value[1]]);
             }
-            console.log(titrations);
-
         }
-    }
-    xmlhttp.open("GET", url, true);
-    xmlhttp.send();
+
+    });
 
 
     // Get residues
-    var xmlhttp2 = new XMLHttpRequest();
-    var url = "dbengine.php?uniqueid=" + uniqueid + "&level=residue";
-
-    xmlhttp2.onreadystatechange = function() {
-        if (xmlhttp2.readyState == 4 && xmlhttp2.status == 200) {
-            var residues = JSON.parse(xmlhttp2.responseText);
-/*
+    $.ajax({
+        dataType: "json",
+        url: "dbengine.php",
+        data: {"uniqueid": uniqueid, "level":"residue"},
+        success: function (residues) {
             for (i=0; i<residues.length; i++) {
-                var res=residues[i];
-                var reslabel=res.RESNAME + " " + res.CID + " " + res.SEQ;
-                titrations[reslabel] = {"label": reslabel, "pka": res.PKA, "data":[]};
-                var fields=res.PKA_TITRATION.split(";");
-                for (var i=0; i < fields.length; i++) {
-                    var point = fields[i];
+                var fields = residues[i].PKA_TITRATION.split(";");
+                var name = residues[i].RESNAME+" "+residues[i].CID+" "+residues[i].SEQ;
+                titrations[name] = {};
+                titrations[name].label = name;
+                titrations[name].pKa = residues[i].PKA;
+                titrations[name].data = [];
+                for (var j = 0; j < fields.length; j++) {
+                    var point = fields[j];
                     var point_value = point.split(":");
-                    titrations[reslabel].data.push([point_value[0], point_value[1]]);
+                    titrations[name].data.push([point_value[0], point_value[1]]);
                 }
             }
-*/
+            console.log(titrations);
+
+            var choiceContainer = $("#ResiduePKas");
+
+            $.each(titrations, function(key, val) {
+                if (val.label == 'Protein PI') {
+                    choiceContainer.append('<br/><smallfont><input type="checkbox" name="' + key +
+                    '" checked="checked" id="id' + key + '">' +
+                    '<label for="id' + key + '">'
+                    + val.label + '<span style="font-style:italic">' + '&nbsp;&nbsp;PI=' + val.titration +'</span></label>' + '</smallfont>');
+                }
+                else {
+                    choiceContainer.append('<br/><smallfont><input type="checkbox" name="' + key +
+                    '" notchecked="checked" id="id' + key + '">' +
+                    '<label for="id' + key + '">'
+                    + val.label + '<span style="font-style:italic">&nbsp;&nbsp;pKa=' + val.titration + '</span></label>'+'</smallfont>');
+                }});
+            choiceContainer.find("input").click(plotAccordingToChoices);
+            function plotAccordingToChoices() {
+                var data = [];
+                choiceContainer.find("input:checked").each(function () {
+                    var key = $(this).attr("name");
+                    if (key && titrations[key])
+                        data.push(titrations[key]);
+                });
+
+
+                if (data.length > 0)
+                    $.plot($("#placeholder"), data, {
+                        xaxis: { tickDecimals: 0 },
+                        series: { lines: {show: true}, points: {show: true}}, grid: {hoverable: true, clickable: true}
+                    });
+            }
+
+            var plot=plotAccordingToChoices();
+
+
+            function showTooltip(x, y, contents) {
+                $('<div id="tooltip">' + contents + '</div>').css( {
+                    position: 'absolute',
+                    display: 'none',
+                    top: y + 5,
+                    left: x + 5,
+                    border: '1px solid #fdd',
+                    padding: '2px',
+                    'background-color': '#fee',
+                    opacity: 0.80
+                }).appendTo("body").fadeIn(200);
+            }
+            var previousPoint = null;
+            $("#placeholder").bind("plothover", function (event, pos, item) {
+                $("#x").text(pos.x.toFixed(2));
+                $("#y").text(pos.y.toFixed(2));
+                if (item) {
+                    if (previousPoint != item.dataIndex) {
+                        previousPoint = item.dataIndex;
+                        $("#tooltip").remove();
+                        var x = item.datapoint[0].toFixed(2),
+                            y = item.datapoint[1].toFixed(2);
+                        showTooltip(item.pageX, item.pageY,
+                            item.series.label + " at pH " + x + " = " + y);
+                    }
+                }
+                else {
+                    $("#tooltip").remove();
+                    previousPoint = null;
+                }
+            });
+            $("#placeholder").bind("plotclick", function (event, pos, item) {
+                if (item) {
+                    $("#clickdata").html("You clicked point <br>" + item.dataIndex + " in " + item.series.data[item.dataIndex] + ".");
+                    plot.highlight(item.series, item.datapoint);
+                }
+            });
+
 
         }
-    }
-    xmlhttp2.open("GET", url, true);
-    xmlhttp2.send();
+    });
+
+
+
+
 
 
 </script>
