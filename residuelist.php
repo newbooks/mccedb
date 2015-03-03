@@ -85,10 +85,11 @@
 
 
                 if (data.length > 0)
-                    $.plot($("#placeholder"), data, {
+                    return $.plot($("#placeholder"), data, {
                         xaxis: { tickDecimals: 0 },
                         series: { lines: {show: true}, points: {show: true}}, grid: {hoverable: true, clickable: true}
                     });
+
             }
 
             var plot=plotAccordingToChoices();
@@ -128,7 +129,8 @@
             $("#placeholder").bind("plotclick", function (event, pos, item) {
                 if (item) {
                     $("#clickdata").html("You clicked point <br>" + item.dataIndex + " in " + item.series.data[item.dataIndex] + ".");
-                    plot.highlight(item.series, item.datapoint);
+                    console.log(plot);
+                    //plot.highlight(item.series, item.datapoint);
                 }
             });
 
