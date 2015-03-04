@@ -64,10 +64,6 @@
                 titrations.Protein_PI.data.push([point_value[0],point_value[1]]);
             }
         }
-
-
-
-
     });
 
 
@@ -77,6 +73,7 @@
         url: "dbengine.php",
         data: {"uniqueid": uniqueid, "level":"residue"},
         success: function (residues) {
+
             for (i=0; i<residues.length; i++) {
                 var fields = residues[i].PKA_TITRATION.split(";");
                 var name = residues[i].RESNAME+" "+residues[i].CID+" "+residues[i].SEQ;
@@ -94,17 +91,21 @@
 
             var choiceContainer = $("#ResiduePKas");
 
+
             $.each(titrations, function(key, val) {
                 if (val.label == 'Protein PI') {
-                    choiceContainer.append('<span class="small_font" ><input type="checkbox" name="' + key +
+                    choiceContainer.append('<div class="small_font" ><input type="checkbox" name="' + key +
                     '" checked="checked" id="id' + key + '"> <label for="id' + key + '">'
-                    + val.label + '&nbsp;&nbsp;PI=' + val.pKa +'</label></span>');
+                    + val.label + '&nbsp;&nbsp;PI=' + val.pKa +'</label></div>');
                 }
                 else {
-                    choiceContainer.append('<br><span class="small_font"><input type="checkbox" name="' + key +
+                    choiceContainer.append('<div class="small_font"><input type="checkbox" name="' + key +
                     '" notchecked="checked" id="id' + key + '"> <label for="id' + key + '">'
-                    + val.label + '&nbsp;&nbsp;pKa=' + val.pKa + '</label> </span>');
+                    + val.label + '&nbsp;&nbsp;pKa=' + val.pKa + '</label></div>');
                 }});
+
+
+
             choiceContainer.find("input").click(plotAccordingToChoices);
             function plotAccordingToChoices() {
                 var data = [];
