@@ -166,21 +166,21 @@
                     previousPoint = null;
                 }
             });
-            var PreviousSeries = null;
-            var PreviousDatapoint = null;
+
             $("#placeholder").bind("plotclick", function (event, pos, item) {
-
                 if (item) {
-                    $("#clickdata").html("You clicked point <br>" + item.dataIndex + " in " + item.series.data[item.dataIndex] + ".");
-                    /* This part doesn't work. The selected point is highlited only on clicking
-                    //plot.unhighlight(PreviousSeries, PreviousDatapoint);
+                    $("#clickdata").html("You clicked point <br>" + item.dataIndex + " in " + item.series.data[item.dataIndex] + " of " + item.series.label + ".");
+                    /* At this point, we can extract residue from item.series.label
+                     * pH from item.series.data[item.dataIndex]
+                     * uniqueid from global variable
 
-                    console.log(PreviousSeries);
-                    console.log(PreviousDatapoint);
-                    plot.highlight(item.series, item.datapoint);
-                    PreviousSeries = item.series;
-                    PreviousDatapoint = item.datapoint;
+                    item.series.label
+                    uniqueid
+                    item.series.data[item.dataIndex]
                     */
+
+
+
                 }
             });
         }
@@ -241,7 +241,6 @@
     });
 
 
-    /* Calculation Detail protein level information */
 
 
 
