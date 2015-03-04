@@ -108,18 +108,17 @@
 
             choiceContainer.find("input").click(plotAccordingToChoices);
             function plotAccordingToChoices() {
-                var data = [];
+                var datap = [];
                 choiceContainer.find("input:checked").each(function () {
                     var key = $(this).attr("name");
                     if (key && titrations[key])
-                        data.push(titrations[key]);
+                        datap.push(titrations[key]);
                 });
 
-
-                if (data.length > 0)
-                    return $.plot($("#placeholder"), data, {
+                if (datap.length > 0)
+                    return $.plot($("#placeholder"), datap, {
                         xaxis: { tickDecimals: 0 },
-                        series: { lines: {show: true}, points: {show: true}}, grid: {hoverable: true, clickable: true}
+                        series: { lines: {show: true}, points: {show: true}}, grid: {hoverable: true, clickable: true},
                     });
 
             }
