@@ -118,7 +118,7 @@
                 if (datap.length > 0)
                     return $.plot($("#placeholder"), datap, {
                         xaxis: { tickDecimals: 0 },
-                        series: { lines: {show: true}, points: {show: true}}, grid: {hoverable: true, clickable: true},
+                        series: { lines: {show: true}, points: {show: true}}, grid: {hoverable: true, clickable: true}
                     });
 
             }
@@ -157,11 +157,18 @@
                     previousPoint = null;
                 }
             });
+            var PreviousSeries = null;
+            var PreviousDatapoint = null;
             $("#placeholder").bind("plotclick", function (event, pos, item) {
+                
                 if (item) {
+                    plot.unhighlight(PreviousSeries, PreviousDatapoint);
                     $("#clickdata").html("You clicked point <br>" + item.dataIndex + " in " + item.series.data[item.dataIndex] + ".");
-                    console.log(plot);
-                    //plot.highlight(item.series, item.datapoint);
+                    console.log(PreviousSeries);
+                    console.log(PreviousDatapoint);
+                    plot.highlight(item.series, item.datapoint);
+                    PreviousSeries = item.series;
+                    PreviousDatapoint = item.datapoint;
                 }
             });
 
