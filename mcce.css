@@ -38,7 +38,7 @@
 
 .right {
     position: absolute;
-    right:5;
+    right:0;
 
 }
 
@@ -67,7 +67,6 @@
 /* tag */
 td {
     position: relative;
-    width: 200px;
 }
 
 th {
