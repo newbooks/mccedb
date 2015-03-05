@@ -42,7 +42,13 @@ if (isset($_GET["uniqueid"])) {
             echo json_encode($allresidues);
             mysql_free_result($result);
         } elseif ($_GET["level"] == "mfe") {
-
+            $fields = explode(" ", $_GET["residue"]);
+            $resname = $fields[0];
+            $cid = $fields[1];
+            $seq = $fields[2];
+            $ph = $_GET["ph"];
+            $query = 'SELECT * from mfe WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND RESNAME="' . $resname . '" AND CID="' .$cid. '" AND SEQ="' .$seq. '"';
+            echo json_encode([$query]);
 
         } elseif ($_GET["level"] == "pairwise") {
 

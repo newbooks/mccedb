@@ -6,7 +6,7 @@
         </td>
         <td style="vertical-align: top; text-align: left">
             <div>Mean Field Energy Analysis</div>
-            <div id="clickdata">Delta G comes here</div>
+            <!--div id="clickdata">Delta G comes here</div-->
             <div id="MFE_DATA"/>
         </td>
     </tr>
