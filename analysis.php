@@ -170,15 +170,7 @@
             $("#placeholder").bind("plotclick", function (event, pos, item) {
                 if (item) {
                     $("#clickdata").html("You clicked point <br>" + item.dataIndex + " in " + item.series.data[item.dataIndex] + " of " + item.series.label + ".");
-                    /* At this point, we can extract residue from item.series.label
-                     * pH from item.series.data[item.dataIndex]
-                     * uniqueid from global variable
-
-                    item.series.label
-                    uniqueid
-                    item.series.data[item.dataIndex]
-                    */
-
+                    print_mfe();
 
 
                 }
@@ -240,7 +232,10 @@
         }
     });
 
-
+function print_mfe() {
+    d3.select("#MFE_DATA")
+        .text("Mean Field Energy Analysis2")
+}
 
 
 
