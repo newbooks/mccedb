@@ -20,24 +20,14 @@ if (isset($_GET["uniqueid"])) {
             $query = 'SELECT * from proteins WHERE UNIQUEID = "' . $uniqueid . '"';
             $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
             $row = mysql_fetch_array($result);
-            $arr = array();
-            foreach ($row as $a => $b) {
-                $arr[$a] = $b;
-            }
-            echo json_encode($arr);
-
+            echo json_encode($row);
             mysql_free_result($result);
-
         } elseif ($_GET["level"] == "residue") {
             $query = 'SELECT * from residues WHERE UNIQUEID = "' . $uniqueid . '" ORDER BY CID, SEQ';
             $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
             $allresidues = array();
             while ($row = mysql_fetch_array($result)) {
-                $arr=array();
-                foreach ($row as $a => $b) {
-                    $arr[$a] = $b;
-                }
-                $allresidues[]=$arr;
+                $allresidues[]=$row;
             }
             echo json_encode($allresidues);
             mysql_free_result($result);
@@ -48,8 +38,10 @@ if (isset($_GET["uniqueid"])) {
             $seq = $fields[2];
             $ph = $_GET["ph"];
             $query = 'SELECT * from mfe WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND RESNAME="' . $resname . '" AND CID="' .$cid. '" AND SEQ="' .$seq. '"';
-            echo json_encode([$query]);
-
+            $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+            $row = mysql_fetch_array($result);
+            echo json_encode($row);
+            mysql_free_result($result);
         } elseif ($_GET["level"] == "pairwise") {
 
 

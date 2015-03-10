@@ -234,8 +234,6 @@ $.ajax({
 });
 
 function print_mfe(uid, res, ph) {
-    console.log(res);
-    console.log(ph);
     $.ajax({
         dataType: "json",
         url: "dbengine.php",
@@ -243,7 +241,7 @@ function print_mfe(uid, res, ph) {
         success: function (mfe) {
             console.log(mfe);
             d3.select("#MFE_DATA")
-                .text("Mean Field Energy Analysisd")
+                .text("Mean Field Energy come here")
         }
     });
 }
