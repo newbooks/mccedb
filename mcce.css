@@ -63,6 +63,11 @@
     height: 600px;
 }
 
+.small_font_bold {
+    font-family: Sans-serif;
+    font-size: small;
+    font-weight: bold;
+}
 
 /* tag */
 td {

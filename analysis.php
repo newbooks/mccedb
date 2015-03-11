@@ -240,10 +240,40 @@ function print_mfe(uid, res, ph) {
         data: {"uniqueid": uniqueid, "level": "mfe", "residue": res, "ph": ph},
         success: function (mfe) {
             console.log(mfe);
-            d3.select("#MFE_DATA")
-                .text("Mean Field Energy come here")
+
+            var residue = [" of " + mfe.RESNAME + " " + mfe.CID + " " + mfe.SEQ + " at pH " + mfe.PH];
+            d3.select("#mfe_residue").select("span").data(residue).text(function (d) {return d;});
+            // Create table_data as an array of array mapping a n x 2 table
+            var table_data = [["VDW0", mfe.VDW0],
+                              ["VDW1", mfe.VDW1],
+                              ["Torsion", mfe.TORS],
+                              ["Backbone Interaction", mfe.EBKB],
+                              ["Desolvation", mfe.DSOL],
+                              ["pH - pKa", mfe.PHPK],
+                              ["-TS", mfe.NegTS],
+                              ["Offset", mfe.OFFSET],
+                              ["Total Pairwise", mfe.TOTALPW]
+            ];
+            var tr=d3.select("#mfe_table").select("tbody").selectAll("tr").data(table_data);
+            tr.selectAll("td").style("background-color","lightblue").data(function(d) {return d;})
+                .text(function(d) {return d});
+
+            var dG = [parseFloat(mfe.VDW0)
+                +parseFloat(mfe.VDW1)
+                +parseFloat(mfe.TORS)
+                +parseFloat(mfe.EBKB)
+                +parseFloat(mfe.DSOL)
+                +parseFloat(mfe.PHPK)
+                +parseFloat(mfe.NegTS)
+                +parseFloat(mfe.OFFSET)
+                +parseFloat(mfe.TOTALPW)];
+            d3.select("#mfe_dG").select("span").data(dG).text(function (d) {return d;});
+
+
+
         }
     });
+
 }
 
 
