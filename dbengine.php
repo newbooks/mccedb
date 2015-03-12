@@ -43,8 +43,17 @@ if (isset($_GET["uniqueid"])) {
             echo json_encode($row);
             mysql_free_result($result);
         } elseif ($_GET["level"] == "pairwise") {
+            // Get unique nodes that contribute to ionization
+            $query = 'SELECT DISTINCT RESNAME2, CID, SEQ CHARGE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph .'"';
+            $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+            $nodes_source = array();
+            while ($row = mysql_fetch_array($result)) {
+                $nodes_source[]=$row;
+            }
 
 
+            echo json_encode($allresidues);
+            mysql_free_result($result);
         }
     }
 }
