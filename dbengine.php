@@ -29,8 +29,8 @@ if (isset($_GET["uniqueid"])) {
             while ($row = mysql_fetch_array($result)) {
                 $allresidues[]=$row;
             }
-            echo json_encode($allresidues);
             mysql_free_result($result);
+            echo json_encode($allresidues);
         } elseif ($_GET["level"] == "mfe") {
             $fields = explode(" ", $_GET["residue"]);
             $resname = $fields[0];
@@ -40,20 +40,25 @@ if (isset($_GET["uniqueid"])) {
             $query = 'SELECT * from mfe WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND RESNAME="' . $resname . '" AND CID="' .$cid. '" AND SEQ="' .$seq. '"';
             $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
             $row = mysql_fetch_array($result);
+            mysql_free_result($result);
             echo json_encode($row);
-            mysql_free_result($result);
         } elseif ($_GET["level"] == "pairwise") {
-            // Get unique nodes that contribute to ionization
-            $query = 'SELECT DISTINCT RESNAME2, CID, SEQ CHARGE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph .'"';
-            $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
-            $nodes_source = array();
-            while ($row = mysql_fetch_array($result)) {
-                $nodes_source[]=$row;
+            if (isset($_GET["residue"])) {//inquire interaction to one residue
+
+            } else { //inquire all residue interactions
+                $query = 'SELECT DISTINCT RESNAME2, CID2, SEQ2, CHARGE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '"';
+                $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+                $nodes = array();
+                while ($row = mysql_fetch_array($result)) {
+                    $nodes[] = [$row['RESNAME2'] . " " . $row['CID2'] . " " . $row['SEQ2'], $row['CHARGE']];
+                }
+
+                mysql_free_result($result);
+
+
+                mysql_free_result($result);
+                echo json_encode($nodes);
             }
-
-
-            echo json_encode($allresidues);
-            mysql_free_result($result);
         }
     }
 }

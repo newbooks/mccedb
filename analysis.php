@@ -158,7 +158,7 @@ $.ajax({
                     var x = item.datapoint[0].toFixed(2),
                         y = item.datapoint[1].toFixed(2);
                     showTooltip(item.pageX, item.pageY,
-                        item.series.label + " at pH " + x + " = " + y);
+                        item.series.label + " at pH " + x + " Charge = " + y);
                 }
             }
             else {
@@ -173,7 +173,8 @@ $.ajax({
                 pH = item.series.data[item.dataIndex][0]
                 var residue = item.series.label;
                 print_mfe(uniqueid, residue, pH);
-                print_interaction(uniqueid, residue, pH);
+                //bring in charge of this residue from item.series.data[item.dataIndex][1]
+                print_interaction(uniqueid, residue, pH, item.series.data[item.dataIndex][1]);
             }
         });
     }
@@ -281,13 +282,13 @@ function print_mfe(uid, res, ph) {
 
 }
 
-function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noob/5141278
+function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/d3noob/5141278
     // get the data
-    var url="dbengine.php&uniqueid=".uid."&ph=".ph;
+    var url="dbengine.php?uniqueid=" + uid + "&ph=" + ph;
     d3.json(url, function(error, pw){
         console.log(pw);
 
-    })
+    });
 
     /*
     d3.csv("force.csv", function(error, links) {
