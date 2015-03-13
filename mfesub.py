@@ -449,12 +449,20 @@ if __name__ == '__main__':
             if (sys.argv[1][:3] == x[0][:3] and sys.argv[1][4:] == x[0][4:]):
                 res_pKa = x[1].split()[0]
 
+
+        myresid = sys.argv[1][:3], sys.argv[1][4:]
+        if sumcrg.has_key(myresid):
+            ion_state = sumcrg[myresid][i]
+        else:
+            print "No charge found %s" % sys.argv[1]
+            ion_state = 0.0
+
         print "MFE=PH:%.2f;RESNAME:%s;CID:%c;SEQ:%d;VDW0:%.2f;VDW1:%.2f;TORS:%.2f;EBKB:%.2f;DSOL:%.2f;PHPK:%.2f;"\
-            "NegTS:%.2f;OFFSET:%.2f;TOTALPW:%.2f" % (
+            "NegTS:%.2f;OFFSET:%.2f;TOTALPW:%.2f;CHARGE:%.2f" % (
                titration_range[i], sys.argv[1][:3], sys.argv[1][4], int(sys.argv[1][5:9]),\
                dG_point.vdw0 / ph2Kcal, dG_point.vdw1 / ph2Kcal, dG_point.tors / ph2Kcal,\
                dG_point.epol / ph2Kcal, dG_point.dsolv / ph2Kcal, dG_point.pHeffect / ph2Kcal,\
-               -dG_point.TS / ph2Kcal, dG_point.extra / ph2Kcal, dG_point.mfe_total / ph2Kcal)
+               -dG_point.TS / ph2Kcal, dG_point.extra / ph2Kcal, dG_point.mfe_total / ph2Kcal, ion_state)
 
 
         for j in range(len(dG_point.mfe)):

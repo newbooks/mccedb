@@ -46,14 +46,28 @@ if (isset($_GET["uniqueid"])) {
             if (isset($_GET["residue"])) {//inquire interaction to one residue
 
             } else { //inquire all residue interactions
+                // source
                 $query = 'SELECT DISTINCT RESNAME2, CID2, SEQ2, CHARGE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '"';
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
                 $nodes = array();
                 while ($row = mysql_fetch_array($result)) {
-                    $nodes[] = [$row['RESNAME2'] . " " . $row['CID2'] . " " . $row['SEQ2'], $row['CHARGE']];
+                    $nodes[$row['RESNAME2'] . " " . $row['CID2'] . " " . $row['SEQ2']] = $row['CHARGE'];
                 }
-
                 mysql_free_result($result);
+                // target, no charge info
+                $query = 'SELECT DISTINCT RESNAME, CID, SEQ from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '"';
+                $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+                while ($row = mysql_fetch_array($result)) {
+                    if (!isset($nodes[$row['RESNAME'] . " " . $row['CID'] . " " . $row['SEQ']])) {
+                        echo $row['RESNAME1'] . " " . $row['CID1'] . " " . $row['SEQ1'] . " undefined <br>";
+                    }
+                }
+                mysql_free_result($result);
+
+
+
+
+
 
 
                 mysql_free_result($result);
