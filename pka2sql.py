@@ -134,9 +134,9 @@ class PROTEIN:
                 value=pair[1]
                 kv[key]=value
             lines.append(
-                "INSERT INTO mfe VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');\n" %
+                "INSERT INTO mfe VALUES ('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s','%s');\n" %
                 (self.uniqueid, kv["PH"], kv["RESNAME"], kv["CID"], kv["SEQ"], kv["VDW0"], kv["VDW1"], kv["TORS"],\
-                 kv["EBKB"], kv["DSOL"], kv["PHPK"], kv["NegTS"],kv["OFFSET"], kv["TOTALPW"]))
+                 kv["EBKB"], kv["DSOL"], kv["PHPK"], kv["NegTS"],kv["OFFSET"], kv["TOTALPW"], kv["CHARGE"]))
             kv.clear()
 
         for line in self.pwlines:
