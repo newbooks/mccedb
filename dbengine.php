@@ -43,6 +43,7 @@ if (isset($_GET["uniqueid"])) {
             mysql_free_result($result);
             echo json_encode($row);
         } elseif ($_GET["level"] == "pairwise") {
+            $ph = $_GET["ph"];
             if (isset($_GET["residue"])) {//inquire interaction to one residue
 
             } else { //inquire all residue interactions
@@ -55,23 +56,29 @@ if (isset($_GET["uniqueid"])) {
                 }
                 mysql_free_result($result);
                 // target, no charge info
-                $query = 'SELECT DISTINCT RESNAME, CID, SEQ from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '"';
+                $query = 'SELECT DISTINCT RESNAME, CID, SEQ, CHARGE from mfe WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '"';
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
                 while ($row = mysql_fetch_array($result)) {
                     if (!isset($nodes[$row['RESNAME'] . " " . $row['CID'] . " " . $row['SEQ']])) {
-                        echo $row['RESNAME1'] . " " . $row['CID1'] . " " . $row['SEQ1'] . " undefined <br>";
+                        $nodes[$row['RESNAME'] . " " . $row['CID'] . " " . $row['SEQ']] = $row['CHARGE'];
                     }
                 }
                 mysql_free_result($result);
 
+                $links = array();
+                foreach ($nodes as $target => $charge) {
+                    $fields = explode(" ", $target);
+                    $query = 'SELECT RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND RESNAME="'. $fields[0].'" AND CID="'.$fields[1].'" AND SEQ="'.$fields[2].'"' ;
+                    $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+                    while ($row = mysql_fetch_array($result)) {
+                        $links[] = ["source"=> $row["RESNAME2"]." ".$row["CID2"]." ".$row["SEQ2"], "target" => $target, "value" =>$row["PAIRWISE"]];
+                    }
+                    mysql_free_result($result);
+
+                }
 
 
-
-
-
-
-                mysql_free_result($result);
-                echo json_encode($nodes);
+                echo json_encode($links);
             }
         }
     }
