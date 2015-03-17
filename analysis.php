@@ -284,26 +284,30 @@ function print_mfe(uid, res, ph) {
 
 function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/d3noob/5141278
     // get the data
-    var url="dbengine.php?uniqueid=" + uid + "&ph=" + ph;
+    var url="dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph;
     d3.json(url, function(error, pw){
-        console.log(pw);
 
-    });
+        var links = pw.links;
 
-    /*
-    d3.csv("force.csv", function(error, links) {
-
-        var nodes = {};
-
-// Compute the distinct nodes from the links.
+        var nodes={};
         links.forEach(function(link) {
             link.source = nodes[link.source] ||
-            (nodes[link.source] = {name: link.source});
+            (nodes[link.source] = {name: link.source, charge: pw.charges[link.source]});
             link.target = nodes[link.target] ||
-            (nodes[link.target] = {name: link.target});
+            (nodes[link.target] = {name: link.target, charge: pw.charges[link.target]});
             link.value = +link.value;
         });
 
+
+        console.log(nodes);
+        console.log(links);
+        /*
+        links.forEach(function(link) {
+            link.source = {name: link.source};
+            link.target = {name: link.target};
+            link.value = +link.value;
+        });
+        */
         var width = 960,
             height = 500;
 
@@ -316,9 +320,11 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
             .on("tick", tick)
             .start();
 
+
         var svg = d3.select("body").append("svg")
             .attr("width", width)
             .attr("height", height);
+
 
 // build the arrow.
         svg.append("svg:defs").selectAll("marker")
@@ -378,9 +384,9 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
                     return "translate(" + d.x + "," + d.y + ")"; });
         }
 
-    });
-*/
-}
+
+    })};
+
 
 </script>
 

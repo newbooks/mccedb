@@ -50,9 +50,9 @@ if (isset($_GET["uniqueid"])) {
                 // source
                 $query = 'SELECT DISTINCT RESNAME2, CID2, SEQ2, CHARGE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '"';
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
-                $nodes = array();
+                $charges = array();
                 while ($row = mysql_fetch_array($result)) {
-                    $nodes[]= ["name" => $row['RESNAME2'] . " " . $row['CID2'] . " " . $row['SEQ2'], "charge" => $row['CHARGE']];
+                    $charges[$row['RESNAME2'] . " " . $row['CID2'] . " " . $row['SEQ2']]= $row['CHARGE'];
                 }
                 mysql_free_result($result);
                 // target, no charge info
@@ -60,7 +60,7 @@ if (isset($_GET["uniqueid"])) {
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
                 while ($row = mysql_fetch_array($result)) {
                     if (!isset($nodes[$row['RESNAME'] . " " . $row['CID'] . " " . $row['SEQ']])) {
-                        $nodes[] = ["name" => $row['RESNAME'] . " " . $row['CID'] . " " . $row['SEQ'], "charge" => $row['CHARGE']];
+                        $charges[$row['RESNAME'] . " " . $row['CID'] . " " . $row['SEQ']] = $row['CHARGE'];
                     }
                 }
                 mysql_free_result($result);
@@ -81,7 +81,7 @@ if (isset($_GET["uniqueid"])) {
 
 
 
-                echo json_encode(["nodes" => $nodes, "links" => $links]);
+                echo json_encode(["charges" => $charges, "links" => $links]);
             }
         }
     }
