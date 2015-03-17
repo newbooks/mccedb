@@ -52,7 +52,7 @@ if (isset($_GET["uniqueid"])) {
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
                 $nodes = array();
                 while ($row = mysql_fetch_array($result)) {
-                    $nodes[$row['RESNAME2'] . " " . $row['CID2'] . " " . $row['SEQ2']] = $row['CHARGE'];
+                    $nodes[]= ["name" => $row['RESNAME2'] . " " . $row['CID2'] . " " . $row['SEQ2'], "charge" => $row['CHARGE']];
                 }
                 mysql_free_result($result);
                 // target, no charge info
@@ -60,25 +60,28 @@ if (isset($_GET["uniqueid"])) {
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
                 while ($row = mysql_fetch_array($result)) {
                     if (!isset($nodes[$row['RESNAME'] . " " . $row['CID'] . " " . $row['SEQ']])) {
-                        $nodes[$row['RESNAME'] . " " . $row['CID'] . " " . $row['SEQ']] = $row['CHARGE'];
+                        $nodes[] = ["name" => $row['RESNAME'] . " " . $row['CID'] . " " . $row['SEQ'], "charge" => $row['CHARGE']];
                     }
                 }
                 mysql_free_result($result);
 
                 $links = array();
-                foreach ($nodes as $target => $charge) {
-                    $fields = explode(" ", $target);
-                    $query = 'SELECT RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND RESNAME="'. $fields[0].'" AND CID="'.$fields[1].'" AND SEQ="'.$fields[2].'"' ;
-                    $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
-                    while ($row = mysql_fetch_array($result)) {
-                        $links[] = ["source"=> $row["RESNAME2"]." ".$row["CID2"]." ".$row["SEQ2"], "target" => $target, "value" =>$row["PAIRWISE"]];
-                    }
-                    mysql_free_result($result);
 
+                $query = 'SELECT RESNAME, CID, SEQ, RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '"';
+                $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+                while ($row = mysql_fetch_array($result)) {
+                    $source = $row["RESNAME2"]." ".$row["CID2"]." ".$row["SEQ2"];
+                    $target = $row["RESNAME"]." ".$row["CID"]." ".$row["SEQ"];
+                    $value = $row["PAIRWISE"];
+                    $links[] = ["source"=> $source, "target" => $target, "value" =>$value];
                 }
+                mysql_free_result($result);
 
 
-                echo json_encode($links);
+
+
+
+                echo json_encode(["nodes" => $nodes, "links" => $links]);
             }
         }
     }
