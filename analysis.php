@@ -322,9 +322,26 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
 
         d3.select("#interaction").select("svg").remove();
 
+        var margin = {top: -5, right: -5, bottom: -5, left: -5};
+        var zoom = d3.behavior.zoom()
+            .scaleExtent([1, 10])
+            .on("zoom", zoomed);
+
         var svg = d3.select("#interaction").append("svg")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.right + ")")
+            .call(zoom);
+// for zoom
+        svg.append("g")
+            .append("rect")
+            .attr("class", "overlay")
+            .attr("width", width)
+            .attr("height", height)
+            .style("fill", "none")
+            .style("pointer-events", "all");
+
 
 
 // build the arrow.
@@ -345,7 +362,6 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
         var path = svg.append("svg:g").selectAll("path")
             .data(force.links())
             .enter().append("svg:path")
-//    .attr("class", function(d) { return "link " + d.type; })
             .attr("class", "link")
             .attr("marker-end", "url(#end)");
 
@@ -385,6 +401,9 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
                     return "translate(" + d.x + "," + d.y + ")"; });
         }
 
+        function zoomed() {
+            svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        }
 
     })};
 
