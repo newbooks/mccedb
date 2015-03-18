@@ -67,7 +67,7 @@ if (isset($_GET["uniqueid"])) {
 
                 $links = array();
 
-                $query = 'SELECT RESNAME, CID, SEQ, RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '"';
+                $query = 'SELECT RESNAME, CID, SEQ, RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND PAIRWISE > 0.2';
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
                 while ($row = mysql_fetch_array($result)) {
                     $source = $row["RESNAME2"]." ".$row["CID2"]." ".$row["SEQ2"];

@@ -299,8 +299,8 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
         });
 
 
-        console.log(nodes);
-        console.log(links);
+        //console.log(nodes);
+        //console.log(links);
         /*
         links.forEach(function(link) {
             link.source = {name: link.source};
@@ -308,20 +308,21 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
             link.value = +link.value;
         });
         */
-        var width = 960,
-            height = 500;
+        var width = 600,
+            height = 400;
 
         var force = d3.layout.force()
             .nodes(d3.values(nodes))
             .links(links)
             .size([width, height])
-            .linkDistance(60)
+            .linkDistance(40)
             .charge(-300)
             .on("tick", tick)
             .start();
 
+        d3.select("#interaction").select("svg").remove();
 
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select("#interaction").append("svg")
             .attr("width", width)
             .attr("height", height);
 

@@ -1,7 +1,7 @@
 <table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0" >
     <tr>
         <td width="50%">
-            <div id="placeholder" style="width:500px;height:300px">Titration curve</div>
+            <div id="placeholder" style="width:600px;height:400px">Titration curve</div>
         </td>
         <td style="vertical-align: top; text-align: left">
             <div id="hoverdata">Mouse at pH=</span><span id="x">0.00</span>, Charge=<span id="y">0.00</div>
@@ -27,9 +27,10 @@
     <tr>
         <td id="interaction">
             <div>Interaction Map</div>
+            <svg />
         </td>
-        <td>
-           <h3> Pairwise Interaction: </h3>
+        <td style="vertical-align: top">
+           <h3> Pairwise Interaction  (>0.2 pH unit): </h3>
         </td>
     </tr>
 </table>
