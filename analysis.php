@@ -365,6 +365,9 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
             .attr("class", "link")
             .attr("marker-end", "url(#end)");
 
+//color
+
+        var color = d3.scale.category20();
 // define the nodes
         var node = svg.selectAll(".node")
             .data(force.nodes())
@@ -374,7 +377,8 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
 
 // add the nodes
         node.append("circle")
-            .attr("r", 5);
+            .attr("r", 5)
+            .style("fill", function(d) { return color(5); });
 
 // add the text
         node.append("text")
