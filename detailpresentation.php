@@ -30,7 +30,7 @@
             <svg />
         </td>
         <td style="vertical-align: top">
-           <h3> Pairwise Interaction  (>0.2 pH unit): </h3>
+           <h3> Pairwise Interaction  (<?php require_once("private/env.php"); echo $PAIRWISE_CUTOFF ?> pH unit): </h3>
         </td>
     </tr>
 </table>
