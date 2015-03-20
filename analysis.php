@@ -285,6 +285,9 @@ function print_mfe(uid, res, ph) {
 function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/d3noob/5141278
     // get the data
     var url="dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph;
+
+    console.log(res);
+
     d3.json(url, function(error, pw){
 
         var links = pw.links;
@@ -315,7 +318,7 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
             .nodes(d3.values(nodes))
             .links(links)
             .size([width, height])
-            .linkDistance(40)
+            .linkDistance(80)
             .charge(-300)
             .on("tick", tick)
             .start();
@@ -378,8 +381,8 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
 
 // add the nodes
         node.append("circle")
-            .attr("r", 5)
-            .style("fill", function(d) { console.log(d); return color(d.charge); });
+            .attr("r", function (d) {if (d.name==res) {return 10} else {return 5}})
+            .style("fill", function(d) { return color(d.charge); });
 
 // add the text
         node.append("text")
