@@ -174,7 +174,7 @@ $.ajax({
                 var residue = item.series.label;
                 print_mfe(uniqueid, residue, pH);
                 //bring in charge of this residue from item.series.data[item.dataIndex][1]
-                print_interaction(uniqueid, residue, pH, item.series.data[item.dataIndex][1]);
+                print_interaction(uniqueid, residue, pH);
             }
         });
     }
@@ -282,7 +282,7 @@ function print_mfe(uid, res, ph) {
 
 }
 
-function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/d3noob/5141278
+function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noob/5141278
     // get the data
     var url="dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph;
 
