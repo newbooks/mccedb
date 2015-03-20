@@ -292,9 +292,9 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
         var nodes={};
         links.forEach(function(link) {
             link.source = nodes[link.source] ||
-            (nodes[link.source] = {name: link.source, charge: pw.charges[link.source]});
+            (nodes[link.source] = {name: link.source, charge: +pw.charges[link.source]});
             link.target = nodes[link.target] ||
-            (nodes[link.target] = {name: link.target, charge: pw.charges[link.target]});
+            (nodes[link.target] = {name: link.target, charge: +pw.charges[link.target]});
             link.value = +link.value;
         });
 
@@ -365,9 +365,10 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
             .attr("class", "link")
             .attr("marker-end", "url(#end)");
 
-//color
-
-        var color = d3.scale.category20();
+// add color
+        var color = d3.scale.linear()
+            .domain([-1, 0, 1])
+            .range(["#C00000", "#80C080", "#0000C0"]);
 // define the nodes
         var node = svg.selectAll(".node")
             .data(force.nodes())
@@ -378,7 +379,7 @@ function print_interaction(uid,res,ph, crg) { //Adapted from http://bl.ocks.org/
 // add the nodes
         node.append("circle")
             .attr("r", 5)
-            .style("fill", function(d) { return color(5); });
+            .style("fill", function(d) { console.log(d); return color(d.charge); });
 
 // add the text
         node.append("text")
