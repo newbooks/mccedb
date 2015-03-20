@@ -45,7 +45,20 @@ if (isset($_GET["uniqueid"])) {
         } elseif ($_GET["level"] == "pairwise") {
             $ph = $_GET["ph"];
             if (isset($_GET["residue"])) {//inquire interaction to one residue
-
+                $fields = explode(" ", $_GET["residue"]);
+                $resname=$fields[0];
+                $cid=$fields[1];
+                $seq=$fields[2];
+                $query = 'SELECT DISTINCT RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND RESNAME="'.$resname.'" AND CID="'.$cid.'" AND SEQ="'.$seq.'" AND PAIRWISE > 0.1';
+                $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
+                $contributers = array();
+                while ($row = mysql_fetch_array($result)) {
+                    $source = $row["RESNAME2"]." ".$row["CID2"]." ".$row["SEQ2"];
+                    $pairwise = $row["PAIRWISE"];
+                    $contributers[$source] = $pairwise;
+                };
+                mysql_free_result($result);
+                echo json_encode($contributers);
             } else { //inquire all residue interactions
                 // source
                 $query = 'SELECT DISTINCT RESNAME2, CID2, SEQ2, CHARGE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '"';

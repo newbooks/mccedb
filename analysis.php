@@ -175,11 +175,13 @@ $.ajax({
                 print_mfe(uniqueid, residue, pH);
                 //bring in charge of this residue from item.series.data[item.dataIndex][1]
                 print_interaction(uniqueid, residue, pH);
+                print_pairwise(uniqueid, residue, pH);
             }
         });
     }
 });
 
+// Protein information
 $.ajax({
     dataType: "json",
     url: "dbengine.php",
@@ -283,10 +285,10 @@ function print_mfe(uid, res, ph) {
 }
 
 function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noob/5141278
-    // get the data
+
     var url="dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph;
 
-    console.log(res);
+    //console.log(res);
 
     d3.json(url, function(error, pw){
 
@@ -414,6 +416,18 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
         }
 
     })};
+
+function print_pairwise(uid,res,ph) {
+    var url="dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph + "&residue=" + res;
+    d3.json(url, function(error, pw){
+
+
+
+
+
+    };
+};
+
 
 
 </script>
