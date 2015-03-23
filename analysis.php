@@ -263,7 +263,7 @@ function print_mfe(uid, res, ph) {
                     return d;
                 })
                     .text(function (d) {
-                        return d
+                        return d;
                     });
 
                 var dG = [parseFloat(mfe.VDW0)
@@ -417,16 +417,34 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
 
     })};
 
+
 function print_pairwise(uid,res,ph) {
     var url="dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph + "&residue=" + res;
     d3.json(url, function(error, pw){
+        var pw_table = [["Residue", "Pairwise"]];
 
+        for (var key in pw) {
+            pw_table.push([key, pw[key]]);
+        }
 
+        //d3.select("#pairwise_list").select("tbody").remove();
 
+        var tr=d3.select("#pairwise_list")
+            .select("tbody")
+            .selectAll("tr")
+            .data(pw_table)
+            .enter()
+            .append("tr");
 
+        tr.selectAll("td")
+            .data(function (d) {return d;})
+            .enter()
+            .append("td")
+            .style("background-color", "lightgray")
+            .text(function (d) {return d;});
 
-    };
-};
+    });
+}
 
 
 

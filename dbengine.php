@@ -49,7 +49,7 @@ if (isset($_GET["uniqueid"])) {
                 $resname=$fields[0];
                 $cid=$fields[1];
                 $seq=$fields[2];
-                $query = 'SELECT DISTINCT RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND RESNAME="'.$resname.'" AND CID="'.$cid.'" AND SEQ="'.$seq.'" AND PAIRWISE > 0.1';
+                $query = 'SELECT DISTINCT RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND RESNAME="'.$resname.'" AND CID="'.$cid.'" AND SEQ="'.$seq.'" AND ABS(PAIRWISE) > 0.05';
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
                 $contributers = array();
                 while ($row = mysql_fetch_array($result)) {
@@ -80,7 +80,7 @@ if (isset($_GET["uniqueid"])) {
 
                 $links = array();
 
-                $query = 'SELECT RESNAME, CID, SEQ, RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND PAIRWISE >'.$PAIRWISE_CUTOFF;
+                $query = 'SELECT RESNAME, CID, SEQ, RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND ABS(PAIRWISE) >'.$PAIRWISE_CUTOFF;
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
                 while ($row = mysql_fetch_array($result)) {
                     $source = $row["RESNAME2"]." ".$row["CID2"]." ".$row["SEQ2"];
