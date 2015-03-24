@@ -31,10 +31,9 @@
         </td>
         <td style="vertical-align: top">
             <h3> Pairwise Interaction: </h3>
-            <table id="pairwise_list" style="width: 100%">
-                <tbody>
-                </tbody>
-            </table>
+            <div id="pairwise_list" />
+
+
 
         </td>
     </tr>

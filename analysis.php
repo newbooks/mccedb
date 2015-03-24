@@ -421,27 +421,55 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
 function print_pairwise(uid,res,ph) {
     var url="dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph + "&residue=" + res;
     d3.json(url, function(error, pw){
-        var pw_table = [["Residue", "Pairwise"]];
+        //var pw_table = [["Residue", "Pairwise"]];
+        var pw_table = [];
 
         for (var key in pw) {
-            pw_table.push([key, pw[key]]);
+            pw_table.push([key, +pw[key]]);
         }
 
         //d3.select("#pairwise_list").select("tbody").remove();
+        console.log(pw_table);
 
+        var scale = d3.scale.linear()
+            .domain([-50, 50])
+            .range([0, 100]);
+
+        var bars = d3.select("#pairwise_list")
+            .selectAll("div")
+            .attr("id","pairwise_list")
+            .data(pw_table);
+
+        // enter selection
+        bars
+            .enter().append("div");
+
+        // update selection
+        bars
+            .style("width", function (d) {return scale(d[1]*100) + "%";})
+            .text(function (d) {return d[0]+" "+d[1];});
+
+        // exit selection
+        bars
+            .exit().remove();
+
+        /*
         var tr=d3.select("#pairwise_list")
-            .select("tbody")
+            //.select("tbody")
             .selectAll("tr")
             .data(pw_table)
             .enter()
             .append("tr");
 
-        tr.selectAll("td")
+        var td=tr.selectAll("td")
             .data(function (d) {return d;})
             .enter()
             .append("td")
             .style("background-color", "lightgray")
-            .text(function (d) {return d;});
+            .text(function (d) {return d;})
+            .exit()
+            .remove();
+        */
 
     });
 }
