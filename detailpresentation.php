@@ -26,12 +26,14 @@
     <tr><td colspan="2"> &nbsp;</td> </tr>
     <tr>
         <td id="interaction">
-            <h3>Interaction Map ( > <?php require_once("private/env.php"); echo $PAIRWISE_CUTOFF ?> pH unit)</h3>
+            <h3>Interaction Network ( > <?php require_once("private/env.php"); echo $PAIRWISE_CUTOFF ?> pH unit)</h3>
             <svg />
         </td>
         <td style="vertical-align: top">
             <h3> Pairwise Interaction: </h3>
-            <div id="pairwise_list" />
+            <table id="pairwise_list" style="width: 100%">
+                <tbody></tbody>
+            </table>
 
 
 
