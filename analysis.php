@@ -348,7 +348,6 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
             .style("pointer-events", "all");
 
 
-
 // build the arrow.
         svg.append("svg:defs").selectAll("marker")
             .data(["end"])      // Different link/path types can be defined here
@@ -373,7 +372,7 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
 // add color
         var color = d3.scale.linear()
             .domain([-1, 0, 1])
-            .range(["#C00000", "#80C080", "#0000C0"]);
+            .range(["#C00000", "#60E060", "#0000C0"]);
 // define the nodes
         var node = svg.selectAll(".node")
             .data(force.nodes())
@@ -411,9 +410,34 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
                     return "translate(" + d.x + "," + d.y + ")"; });
         }
 
+// zoom function
         function zoomed() {
             svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
         }
+
+// add legend
+        var legend = svg.selectAll(".legend")
+            .data(color.domain().slice().reverse())
+            .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function (d, i) {
+                return "translate(0," + i * 20 + ")";
+            });
+
+        legend.append("rect")
+            .attr("x", width - 18)
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", color);
+
+        legend.append("text")
+            .attr("x", width - 24)
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function (d) {
+                return d;
+            });
 
     })};
 
