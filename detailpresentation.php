@@ -25,8 +25,18 @@
     </tr>
     <tr><td colspan="2"> &nbsp;</td> </tr>
     <tr>
-        <td id="interaction">
+        <td>
             <h3>Interaction Network ( > <?php require_once("private/env.php"); echo $PAIRWISE_CUTOFF ?> pH unit)</h3>
+            <div style="display: inline">Charge scale: </div>
+            <div style="display: inline">-1.0</div>
+            <div style="display: inline"  id="vis1"></div>
+            <div style="display: inline">0.0</div>
+            <div style="display: inline" id="vis2"></div>
+            <div style="display: inline">1.0</div>
+
+
+
+            <div id="interaction"></div>
             <svg />
         </td>
         <td style="vertical-align: top">

@@ -8,6 +8,8 @@
     <script language="javascript" type="text/javascript" src="jquery.js"></script>
     <script language="javascript" type="text/javascript" src="jquery.flot.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="src/d3.chart.js"></script>
+    <script src="src/horizontal-legend.js"></script>
 
 
 </head>
@@ -54,6 +56,12 @@ for (var i = 0; i < parts.length; i++) {
 
 var uniqueid = $_GET.id;
 var titrations = {};
+
+
+var negCharge = "#C00000";
+var noCharge = "#60E060";
+var posCharge = "#0000C0";
+
 
 // Get protein
 $.ajax({
@@ -284,18 +292,18 @@ function print_mfe(uid, res, ph) {
 
 }
 
-function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noob/5141278
+function print_interaction(uid, res, ph) { //Adapted from http://bl.ocks.org/d3noob/5141278
 
-    var url="dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph;
+    var url = "dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph;
 
     //console.log(res);
 
-    d3.json(url, function(error, pw){
+    d3.json(url, function (error, pw) {
 
         var links = pw.links;
 
-        var nodes={};
-        links.forEach(function(link) {
+        var nodes = {};
+        links.forEach(function (link) {
             link.source = nodes[link.source] ||
             (nodes[link.source] = {name: link.source, charge: +pw.charges[link.source]});
             link.target = nodes[link.target] ||
@@ -307,12 +315,12 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
         //console.log(nodes);
         //console.log(links);
         /*
-        links.forEach(function(link) {
-            link.source = {name: link.source};
-            link.target = {name: link.target};
-            link.value = +link.value;
-        });
-        */
+         links.forEach(function(link) {
+         link.source = {name: link.source};
+         link.target = {name: link.target};
+         link.value = +link.value;
+         });
+         */
         var width = 600,
             height = 400;
 
@@ -372,7 +380,7 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
 // add color
         var color = d3.scale.linear()
             .domain([-1, 0, 1])
-            .range(["#C00000", "#60E060", "#0000C0"]);
+            .range([negCharge, noCharge, posCharge]);
 // define the nodes
         var node = svg.selectAll(".node")
             .data(force.nodes())
@@ -382,18 +390,28 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
 
 // add the nodes
         node.append("circle")
-            .attr("r", function (d) {if (d.name==res) {return 10} else {return 5}})
-            .style("fill", function(d) { return color(d.charge); });
+            .attr("r", function (d) {
+                if (d.name == res) {
+                    return 10
+                } else {
+                    return 5
+                }
+            })
+            .style("fill", function (d) {
+                return color(d.charge);
+            });
 
 // add the text
         node.append("text")
             .attr("x", 12)
             .attr("dy", ".35em")
-            .text(function(d) { return d.name; });
+            .text(function (d) {
+                return d.name;
+            });
 
 // add the curvy lines
         function tick() {
-            path.attr("d", function(d) {
+            path.attr("d", function (d) {
                 var dx = d.target.x - d.source.x,
                     dy = d.target.y - d.source.y,
                     dr = Math.sqrt(dx * dx + dy * dy);
@@ -406,8 +424,9 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
             });
 
             node
-                .attr("transform", function(d) {
-                    return "translate(" + d.x + "," + d.y + ")"; });
+                .attr("transform", function (d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
         }
 
 // zoom function
@@ -415,36 +434,15 @@ function print_interaction(uid,res,ph) { //Adapted from http://bl.ocks.org/d3noo
             svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
         }
 
-// add legend
-        var legend = svg.selectAll(".legend")
-            .data(color.domain().slice().reverse())
-            .enter().append("g")
-            .attr("class", "legend")
-            .attr("transform", function (d, i) {
-                return "translate(0," + i * 20 + ")";
-            });
-
-        legend.append("rect")
-            .attr("x", width - 18)
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", color);
-
-        legend.append("text")
-            .attr("x", width - 24)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "end")
-            .text(function (d) {
-                return d;
-            });
-
-    })};
+    });
 
 
-function print_pairwise(uid,res,ph) {
-    var url="dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph + "&residue=" + res;
-    d3.json(url, function(error, pw){
+}
+
+
+function print_pairwise(uid, res, ph) {
+    var url = "dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph + "&residue=" + res;
+    d3.json(url, function (error, pw) {
         var pw_table = [["Residue", "Pairwise"]];
 
         for (var key in pw) {
@@ -454,31 +452,31 @@ function print_pairwise(uid,res,ph) {
 
         //d3.select("#pairwise_list").select("tbody").remove();
         console.log(pw_table);
-/*
-        var scale = d3.scale.linear()
-            .domain([-50, 50])
-            .range([0, 100]);
+        /*
+         var scale = d3.scale.linear()
+         .domain([-50, 50])
+         .range([0, 100]);
 
-        var bars = d3.select("#pairwise_list")
-            .selectAll("div")
-            .attr("id","pairwise_list")
-            .data(pw_table);
+         var bars = d3.select("#pairwise_list")
+         .selectAll("div")
+         .attr("id","pairwise_list")
+         .data(pw_table);
 
-        // enter selection
-        bars
-            .enter().append("div");
+         // enter selection
+         bars
+         .enter().append("div");
 
-        // update selection
-        bars
-            .style("width", function (d) {return scale(d[1]*100) + "%";})
-            .text(function (d) {return d[0]+" "+d[1];});
+         // update selection
+         bars
+         .style("width", function (d) {return scale(d[1]*100) + "%";})
+         .text(function (d) {return d[0]+" "+d[1];});
 
-        // exit selection
-        bars
-            .exit().remove();
-*/
+         // exit selection
+         bars
+         .exit().remove();
+         */
 
-        var rows=d3.select("#pairwise_list")
+        var rows = d3.select("#pairwise_list")
             .select("tbody")
             .selectAll("tr")
             .data(pw_table);
@@ -486,15 +484,19 @@ function print_pairwise(uid,res,ph) {
         rows.enter()
             .append("tr");
 
-        var cells=rows.selectAll("td")
-            .data(function (d) {return d;});
+        var cells = rows.selectAll("td")
+            .data(function (d) {
+                return d;
+            });
 
         // has to be a separate line for exit() to work, don't know why
         cells.enter()
             .append("td");
 
         cells.style({"background-color": "lightgray", "width": "50%"})
-            .text(function (d) {return d;});
+            .text(function (d) {
+                return d;
+            });
 
         //console.log(cells);
         cells.exit().remove();
@@ -504,6 +506,36 @@ function print_pairwise(uid,res,ph) {
 }
 
 
+//color legend
+    var scales1 = d3.scale.linear()
+        .range([negCharge, noCharge])
+        .domain([-1,0])
+        .interpolate(d3.interpolateLab);
+
+    var legend1 = d3.select("#vis1")
+        .append("svg")
+        .chart("HorizontalLegend")
+        .height(16)
+        .width(120)
+        .padding(10)
+        .boxes(5);
+
+    legend1.draw(scales1);
+
+    var scales2 = d3.scale.linear()
+        .range([noCharge, posCharge])
+        .domain([0.0, +1.0])
+        .interpolate(d3.interpolateLab);
+
+    var legend2 = d3.select("#vis2")
+        .append("svg")
+        .chart("HorizontalLegend")
+        .height(16)
+        .width(120)
+        .padding(10)
+        .boxes(5);
+
+    legend2.draw(scales2);
 
 </script>
 
