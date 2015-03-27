@@ -4,12 +4,17 @@
     <meta content="text/html; charset=ISO-8859-1" http-equiv="content-type">
     <title>MCCE pKa Database</title>
     <link rel="stylesheet" type="text/css" href="mcce.css"/>
-    <!-- script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script -->
-    <script language="javascript" type="text/javascript" src="jquery.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <!-- script language="javascript" type="text/javascript" src="jquery.js"></script -->
     <script language="javascript" type="text/javascript" src="jquery.flot.js"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
     <script src="src/d3.chart.js"></script>
     <script src="src/horizontal-legend.js"></script>
+
+    <link rel="stylesheet" type="text/css" media="all" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" media="all" href="http://fonts.googleapis.com/css?family=Acme">
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 
 
 </head>
@@ -451,7 +456,7 @@ function print_pairwise(uid, res, ph) {
 
 
         //d3.select("#pairwise_list").select("tbody").remove();
-        console.log(pw_table);
+        //console.log(pw_table);
         /*
          var scale = d3.scale.linear()
          .domain([-50, 50])
@@ -536,6 +541,19 @@ function print_pairwise(uid, res, ph) {
         .boxes(5);
 
     legend2.draw(scales2);
+
+
+// slider
+$(function() {
+    $('#defaultslide').slider({
+        max: 1000,
+        min: 0,
+        value: 500,
+        slide: function (e, ui) {
+            $('#currentval').html(ui.value);
+        }
+    });
+});
 
 </script>
 

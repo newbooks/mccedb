@@ -120,3 +120,8 @@ text {
     padding: 0.5em;
     margin: 0.2em;
 }
+
+/* for slider */
+div.ui-slider-range.ui-widget-header {
+    background: #0000ff;
+}

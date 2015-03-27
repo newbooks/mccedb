@@ -27,6 +27,14 @@
     <tr>
         <td>
             <h3>Interaction Network ( > <?php require_once("private/env.php"); echo $PAIRWISE_CUTOFF ?> pH unit)</h3>
+
+            <div id="defaultval">
+                Slider Value: <span id="currentval">500</span>
+            </div>
+
+            <div id="defaultslide"></div>
+
+
             <div style="display: inline">Charge scale: </div>
             <div style="display: inline">-1.0</div>
             <div style="display: inline"  id="vis1"></div>
@@ -38,6 +46,8 @@
 
             <div id="interaction"></div>
             <svg />
+
+
         </td>
         <td style="vertical-align: top">
             <h3> Pairwise Interaction: </h3>
