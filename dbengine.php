@@ -44,6 +44,7 @@ if (isset($_GET["uniqueid"])) {
             echo json_encode($row);
         } elseif ($_GET["level"] == "pairwise") {
             $ph = $_GET["ph"];
+            $cutoff = $_GET["cutoff"];
             if (isset($_GET["residue"])) {//inquire interaction to one residue
                 $fields = explode(" ", $_GET["residue"]);
                 $resname=$fields[0];
@@ -80,7 +81,7 @@ if (isset($_GET["uniqueid"])) {
 
                 $links = array();
 
-                $query = 'SELECT RESNAME, CID, SEQ, RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND ABS(PAIRWISE) >'.$PAIRWISE_CUTOFF;
+                $query = 'SELECT RESNAME, CID, SEQ, RESNAME2, CID2, SEQ2, PAIRWISE from pairwise WHERE UNIQUEID = "' . $uniqueid . '" AND PH="' . $ph . '" AND ABS(PAIRWISE) >'.$cutoff;
                 $result = @mysql_query($query) or die('Invalid query: ' . mysql_error());
                 while ($row = mysql_fetch_array($result)) {
                     $source = $row["RESNAME2"]." ".$row["CID2"]." ".$row["SEQ2"];
@@ -89,10 +90,6 @@ if (isset($_GET["uniqueid"])) {
                     $links[] = ["source"=> $source, "target" => $target, "value" =>$value];
                 }
                 mysql_free_result($result);
-
-
-
-
 
                 echo json_encode(["charges" => $charges, "links" => $links]);
             }

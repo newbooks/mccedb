@@ -59,7 +59,7 @@ for (var i = 0; i < parts.length; i++) {
     $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
 }
 
-var cutoff = 0.25;
+var cutoff = 0.3; // This number has to match that in slider function, otherwise the initial slider display is off
 
 var uniqueid = $_GET.id;
 var titrations = {};
@@ -182,6 +182,7 @@ $.ajax({
             }
         });
 
+
         $("#placeholder").bind("plotclick", function (event, pos, item) {
             if (item) {
                 //$("#clickdata").html("You clicked point <br>" + item.dataIndex + " in " + item.series.data[item.dataIndex] + " of " + item.series.label + ".");
@@ -189,7 +190,7 @@ $.ajax({
                 var residue = item.series.label;
                 print_mfe(uniqueid, residue, pH);
                 //bring in charge of this residue from item.series.data[item.dataIndex][1]
-                print_interaction(uniqueid, residue, pH);
+                print_interaction(uniqueid, residue, pH, cutoff);
                 print_pairwise(uniqueid, residue, pH);
                 slider(uniqueid, residue, pH);
             }
@@ -300,9 +301,9 @@ function print_mfe(uid, res, ph) {
 
 }
 
-function print_interaction(uid, res, ph) { //Adapted from http://bl.ocks.org/d3noob/5141278
+function print_interaction(uid, res, ph, cutoff) { //Adapted from http://bl.ocks.org/d3noob/5141278
 
-    var url = "dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph;
+    var url = "dbengine.php?uniqueid=" + uid + "&level=pairwise" + "&ph=" + ph + "&cutoff=" + cutoff;
 
     //console.log(res);
 
@@ -434,7 +435,7 @@ function print_interaction(uid, res, ph) { //Adapted from http://bl.ocks.org/d3n
 
     });
 
-
+    $('#currentval').html(cutoff);
 }
 
 
@@ -512,14 +513,13 @@ function print_pairwise(uid, res, ph) {
 // slider
 function slider(uniqueid, residue, pH) {
     $('#defaultslide').slider({
-        max: 200,
+        max: 20,
         min: 0,
-        value: 50,
+        value: 6, //converts to 0.3, matching that of initial cutoff
         slide: function (e, ui) {
-            cutoff=ui.value / 100.0;
+            cutoff=ui.value / 10.0;
             $('#currentval').html(cutoff);
-            print_interaction(uniqueid, residue, pH);
-
+            print_interaction(uniqueid, residue, pH, cutoff);
         }
     });
 }
