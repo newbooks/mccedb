@@ -59,6 +59,8 @@ for (var i = 0; i < parts.length; i++) {
     $_GET[decodeURIComponent(temp[0])] = decodeURIComponent(temp[1]);
 }
 
+var cutoff = 0.25;
+
 var uniqueid = $_GET.id;
 var titrations = {};
 
@@ -316,16 +318,6 @@ function print_interaction(uid, res, ph) { //Adapted from http://bl.ocks.org/d3n
             link.value = +link.value;
         });
 
-
-        //console.log(nodes);
-        //console.log(links);
-        /*
-         links.forEach(function(link) {
-         link.source = {name: link.source};
-         link.target = {name: link.target};
-         link.value = +link.value;
-         });
-         */
         var width = 600,
             height = 400;
 
@@ -454,33 +446,6 @@ function print_pairwise(uid, res, ph) {
             pw_table.push([key, +pw[key]]);
         }
 
-
-        //d3.select("#pairwise_list").select("tbody").remove();
-        //console.log(pw_table);
-        /*
-         var scale = d3.scale.linear()
-         .domain([-50, 50])
-         .range([0, 100]);
-
-         var bars = d3.select("#pairwise_list")
-         .selectAll("div")
-         .attr("id","pairwise_list")
-         .data(pw_table);
-
-         // enter selection
-         bars
-         .enter().append("div");
-
-         // update selection
-         bars
-         .style("width", function (d) {return scale(d[1]*100) + "%";})
-         .text(function (d) {return d[0]+" "+d[1];});
-
-         // exit selection
-         bars
-         .exit().remove();
-         */
-
         var rows = d3.select("#pairwise_list")
             .select("tbody")
             .selectAll("tr")
@@ -546,11 +511,14 @@ function print_pairwise(uid, res, ph) {
 // slider
 $(function() {
     $('#defaultslide').slider({
-        max: 1000,
+        max: 200,
         min: 0,
-        value: 500,
+        value: 50,
         slide: function (e, ui) {
-            $('#currentval').html(ui.value);
+            cutoff=ui.value / 100.0;
+            $('#currentval').html(cutoff);
+            print_interaction(uniqueid, residue, pH);
+
         }
     });
 });

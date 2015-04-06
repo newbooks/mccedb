@@ -1,4 +1,4 @@
-<table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0" >
+<table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0" border="1">
     <tr>
         <td width="50%">
             <div id="placeholder" style="width:600px;height:400px">Titration curve</div>
@@ -26,11 +26,13 @@
     <tr><td colspan="2"> &nbsp;</td> </tr>
     <tr>
         <td>
-            <h3>Interaction Network ( > <?php require_once("private/env.php"); echo $PAIRWISE_CUTOFF ?> pH unit)</h3>
+            <h3>Interaction Network ( > <span id="currentval">0.25</span> pH unit)</h3>
 
+            <!--
             <div id="defaultval">
-                Slider Value: <span id="currentval">500</span>
+                Pairwise Cutoff (pH unit): <span id="currentval"></span>
             </div>
+            -->
 
             <div id="defaultslide"></div>
 
@@ -45,7 +47,8 @@
 
 
             <div id="interaction"></div>
-            <svg />
+
+            <svg style="display:block;"></svg>
 
 
         </td>
