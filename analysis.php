@@ -191,6 +191,7 @@ $.ajax({
                 //bring in charge of this residue from item.series.data[item.dataIndex][1]
                 print_interaction(uniqueid, residue, pH);
                 print_pairwise(uniqueid, residue, pH);
+                slider(uniqueid, residue, pH);
             }
         });
     }
@@ -509,7 +510,7 @@ function print_pairwise(uid, res, ph) {
 
 
 // slider
-$(function() {
+function slider(uniqueid, residue, pH) {
     $('#defaultslide').slider({
         max: 200,
         min: 0,
@@ -521,7 +522,7 @@ $(function() {
 
         }
     });
-});
+}
 
 </script>
 
