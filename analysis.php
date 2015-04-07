@@ -515,7 +515,7 @@ function slider(uniqueid, residue, pH) {
     $('#defaultslide').slider({
         max: 20,
         min: 0,
-        value: 6, //converts to 0.3, matching that of initial cutoff
+        value: 3, //converts to 0.3, matching that of initial cutoff
         slide: function (e, ui) {
             cutoff=ui.value / 10.0;
             $('#currentval').html(cutoff);

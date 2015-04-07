@@ -36,6 +36,9 @@
 
             <div id="defaultslide"></div>
 
+            <div id="interaction">
+                <svg style="display:block;"></svg>
+            </div>
 
             <div style="display: inline">Charge scale: </div>
             <div style="display: inline">-1.0</div>
@@ -43,12 +46,6 @@
             <div style="display: inline">0.0</div>
             <div style="display: inline" id="vis2"></div>
             <div style="display: inline">1.0</div>
-
-
-
-            <div id="interaction"></div>
-
-            <svg style="display:block;"></svg>
 
 
         </td>
