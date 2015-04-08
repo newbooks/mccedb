@@ -1,3 +1,5 @@
+<div style="color: darkgreen; font-weight: bold">Click on a residue to start</div>
+
 <div class="small_font">Residues</div>
 
 <div class="scrollable">

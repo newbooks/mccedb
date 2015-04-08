@@ -118,7 +118,7 @@ $.ajax({
         $.each(titrations, function (key, val) {
             if (val.label == 'Protein PI') {
                 choiceContainer.append('<div class="small_font" ><input type="checkbox" name="' + key +
-                '" checked="checked" id="id' + key + '"> <label for="id' + key + '">'
+                '" notchecked="checked" id="id' + key + '"> <label for="id' + key + '">'
                 + val.label + '&nbsp;&nbsp;PI=' + val.pKa + '</label></div>');
             }
             else {
