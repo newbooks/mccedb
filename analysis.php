@@ -262,7 +262,7 @@ function print_mfe(uid, res, ph) {
             //console.log(mfe);
             if (mfe) {
                 var residue = [mfe.RESNAME + " " + mfe.CID + " " + mfe.SEQ + " at pH " + mfe.PH];
-                d3.select("#mfe_residue").select("span").data(residue).style("background-color", "lightgray").text(function (d) {
+                d3.select("#mfe_residue").select("span").data(residue).style("color", "darkgreen").text(function (d) {
                     return d;
                 });
                 // Create table_data as an array of array mapping a n x 2 table
@@ -271,9 +271,9 @@ function print_mfe(uid, res, ph) {
                     ["Torsion", mfe.TORS],
                     ["Backbone Interaction", mfe.EBKB],
                     ["Desolvation", mfe.DSOL],
-                    ["pH - pKa", mfe.PHPK],
                     ["Offset", mfe.OFFSET],
-                    ["Total Pairwise", mfe.TOTALPW]
+                    ["Total Pairwise", mfe.TOTALPW],
+                    ["Environment pH - pKa0", mfe.PHPK]
                 ];
                 var tr = d3.select("#mfe_table").select("tbody").selectAll("tr").data(table_data);
                 tr.selectAll("td").style("background-color", "lightgray").data(function (d) {

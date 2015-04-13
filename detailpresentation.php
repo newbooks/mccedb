@@ -1,11 +1,14 @@
 <table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0" border="1">
     <tr>
         <td width="50%">
-            <div id="placeholder" style="width:600px;height:400px">Titration curve</div>
+            <div id="placeholder" style="width:600px;height:400px;color: darkgreen; font-size: large; text-decoration: blink">Titration curve. Click a residue on right panel to start.</div>
         </td>
         <td style="vertical-align: top; text-align: left">
-            <div id="hoverdata">Mouse at pH=</span><span id="x">0.00</span>, Charge=<span id="y">0.00</div>
-            <h3 id="mfe_residue">Mean Field Energy Analysis: <span/></h3>
+            <div id="hoverdata">Mouse at pH=<span id="x">0.00</span>, Charge=<span id="y">0.00</div>
+            <h3>Mean Field Energy Analysis:</h3>
+            <div id="mfe_residue"><span></span></div>
+
+
             <!--div id="clickdata">Delta G comes here</div-->
             <div class="small_font_bold"> All energy terms are in pH unit. </div>
             <table id="mfe_table" style="width: 100%">
