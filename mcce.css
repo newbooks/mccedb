@@ -39,7 +39,11 @@
 .right {
     position: absolute;
     right:0;
+}
 
+ul.ui-autocomplete.ui-menu li {
+    color:grey;
+    font-size: small;
 }
 
 .removable_options {
