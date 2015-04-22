@@ -16,6 +16,9 @@
 
 <?php include("header.php") ?>
 
+<?php include("introduction.php") ?>
+<hr>
+
 <h2>How to search</h2>
 
 <h3>Initial search</h3>

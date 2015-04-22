@@ -132,7 +132,7 @@ if (isset($_GET['switchview'])) {
 echo <<<HTML
 <form action="searchresult.php" method="post">
     <div style="color: #606060">Refine by:</div>
-        <input type="text" name="refinesearchtxt" size="24">
+        <input type="text" name="refinesearchtxt" size="24" class="autoc">
         <input type="submit" value="Go">
 </form>
 <hr>
