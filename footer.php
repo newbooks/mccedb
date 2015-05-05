@@ -16,4 +16,27 @@
     </tr>
     </tbody>
 </table>
-</div>
+
+
+<script src="src/tooltip.js"></script>
+<script src="src/jquery.glossarize.js"></script>
+<script>
+
+    $(function(){
+
+        $('.content').glossarizer({
+            sourceURL: 'glossary.json',
+            lookupTagName : 'p, ul, a, td',
+            callback: function(){
+
+                // Callback fired after glossarizer finishes its job
+
+                new tooltip();
+
+            }
+        });
+
+
+    });
+
+</script>

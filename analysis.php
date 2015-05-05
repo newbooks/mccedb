@@ -17,14 +17,22 @@
     <script type="text/javascript" src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 
 
+<style>
+    /* Glossarized Content */
+    .glossarizer_replaced{
+        border-bottom: 1px #333 dotted;
+        cursor: help;
+        display: inline;
+    }
+</style>
+
 </head>
 
 <body>
 
 <?php include("header.php") ?>
 
-
-<table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0">
+<table style="text-align: left; width: 100%;" cellpadding="0" cellspacing="0" class="content">
     <tr>
         <td colspan="2">
             <h2>Calculation Details</h2>
