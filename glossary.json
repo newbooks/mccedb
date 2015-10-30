@@ -1,0 +1,19 @@
+[
+    {
+        "term": "Desolvation",
+        "description": "Desolvation energy. The energy required to move a polar or charged residue from favorable solution to less favorable protein."
+    },
+    {
+        "term": "Click",
+        "description": "Click me"
+    },
+    {
+        "term": "lys",
+        "description": "Lysine"
+    },
+    {
+        "term": "asp",
+        "description": "Aspartic acid"
+    }
+
+]
