@@ -1,4 +1,4 @@
-<a href="https://github.com/newbooks/mccedb/issues/new"><img src="bug.jpg" width="50px"></a>
+<a href="https://github.com/newbooks/mccedb/issues/new" target="_blank"><img src="bug.jpg" width="50px"></a>
 <div id="footer">
 <table style="width: 100%;" cellpadding="0" cellspacing="0">
     <tbody>
